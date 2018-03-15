@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/marked_done"
+            android:checkable="false"
+            android:checked="false"
+            android:icon="@drawable/ic_list"
+            android:title="Marked Done" />
+        <item
+            android:id="@+id/change_rules"
+            android:icon="@drawable/ic_change_rules"
+            android:title="Change Rules"
+            android:checkable="false"/>
+        <item
+            android:id="@+id/notifications"
+            android:icon="@drawable/ic_notification"
+            android:title="Notifications"
+            android:checkable="false"/>
+        <item
+            android:id="@+id/spreadsheet"
+            android:icon="@drawable/ic_spreadsheet_cell"
+            android:title="Open Spreadsheet"
+            android:checkable="false"/>
+
+    </group>
+
+</menu>
