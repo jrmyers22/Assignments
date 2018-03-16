@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class ViewAssignment extends AppCompatActivity {
 
     @Override
@@ -19,14 +21,19 @@ public class ViewAssignment extends AppCompatActivity {
 
         // Populate the properties fields
         TextView aName = findViewById(R.id.name);
-        aName.setText((CharSequence) selectedAssignment.getName());
+        aName.setText(selectedAssignment.getName());
         TextView cName = findViewById(R.id.className);
-        cName.setText((CharSequence) selectedAssignment.getClassName());
+        cName.setText(selectedAssignment.getClassName());
         TextView tDate = findViewById(R.id.timeDue);
-        tDate.setText((CharSequence) selectedAssignment.getTimeDue());
+        tDate.setText(selectedAssignment.getTimeDue());
         TextView dDate = findViewById(R.id.dayDue);
-        dDate.setText((CharSequence) selectedAssignment.getDateDue());
+        dDate.setText(selectedAssignment.getDateDue());
 
+        // TODO: Calculate the days 'til when the assignment is clicked on
+        TextView timeRem = findViewById(R.id.timeRem);
+        timeRem.setText(selectedAssignment.getTimeRem());
+
+        // TODO: Delete Removes the assignment (same as Remove functionality)
         Button deleteButton = findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override

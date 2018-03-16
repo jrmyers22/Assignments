@@ -37,7 +37,6 @@ class Assignment implements Serializable {
             this.timeDue = timeDue;
             this.dateDue = dateDue;
             this.isDone = false;
-            this.timeRemaining = calcTime(timeDue);
         }
 
         // getters
@@ -57,17 +56,25 @@ class Assignment implements Serializable {
             return dateDue;
         }
 
+        public String getTimeRem() {
+            String retVal = "";
+            if (timeRemaining == 1) {
+                retVal = "~ " + timeRemaining + " day";
+            } else {
+                retVal = "~ " + timeRemaining + " days";
+            }
+            return retVal;
+        }
+
         public boolean isDone() {
             return isDone;
         }
 
-        public void setDone() { this.isDone = true; } ////////////// Planning on using this
-
-        public int calcTime(String timeDue) {
-            // 20:03 example
-            Date currentTime = Calendar.getInstance().getTime();
-            return 0;
+        public void setTimeRemaining(int timeRem) {
+            this.timeRemaining = timeRem;
         }
+
+        public void setDone() { this.isDone = true; } ////////////// Planning on using this
 
         public String serialize() {
             // Serialize this class into a JSON string using GSON

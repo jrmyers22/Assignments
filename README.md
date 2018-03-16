@@ -1,4 +1,4 @@
- Assignments
+# Assignments
 
 A continuation of the Materials and Assignments Management Assistant.
 

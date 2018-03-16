@@ -29,6 +29,7 @@ public class AddAssignment extends AppCompatActivity {
     String classNameStr;
     String timeStr;
     String dateStr;
+    int daysTil;
     Assignment selectedAssignment;
 
     @Override
@@ -136,6 +137,7 @@ public class AddAssignment extends AppCompatActivity {
                 } else {
                     // Create our data object
                     Assignment newAssignment = new Assignment(nameStr, classNameStr, timeStr, dateStr);
+                    newAssignment.setTimeRemaining(daysTil);
 
                     // Serialize the object into a string
                     String serializedData = newAssignment.serialize();
@@ -156,7 +158,7 @@ public class AddAssignment extends AppCompatActivity {
 
                     String allData = "Name: " + newAssignment.getName() + " Class: " + newAssignment.getClassName()
                             + " Time: " + newAssignment.getTimeDue() + " Date: " + newAssignment.getDateDue();
-                    Toast.makeText(AddAssignment.this, allData, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(AddAssignment.this, allData, Toast.LENGTH_LONG).show();
                     setResult(RESULT_OK, null);
                     finish();
                 }
@@ -186,6 +188,12 @@ public class AddAssignment extends AppCompatActivity {
         int day = Integer.valueOf(dateSubStr.substring(0, dateSubStr.indexOf('/')));
         dateSubStr = dateSubStr.substring(dateSubStr.indexOf('/') + 1, dateSubStr.length());
         int year = Integer.valueOf(dateSubStr);
+        if (cYear == year) {
+            if (cMonth == month) {
+                daysTil = day - cDay;
+                //Toast.makeText(AddAssignment.this, daysTil, Toast.LENGTH_LONG).show();
+            }
+        }
         Log.d("Year","Current year: " + cYear + " Passed year: " + year);
         Log.d("Month","Current month: " + cMonth + " Passed year: " + month);
         Log.d("Day","Current day: " + cDay + " Passed day: " + day);
@@ -200,6 +208,7 @@ public class AddAssignment extends AppCompatActivity {
                 }
             }
         } else {
+
             return "";
         }
 

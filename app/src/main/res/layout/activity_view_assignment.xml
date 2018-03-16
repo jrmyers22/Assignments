@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.example.jacob.actiondrawertest.ViewAssignment">
 
+    <TextView
+        android:id="@+id/timeRem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
     <Button
         android:id="@+id/editButton"
         android:layout_width="350dp"
