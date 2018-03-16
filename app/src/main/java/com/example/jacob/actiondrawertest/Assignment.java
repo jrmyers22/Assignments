@@ -1,12 +1,10 @@
 package com.example.jacob.actiondrawertest;
 
 import com.google.gson.Gson;
-import java.util.Calendar;
 
 import java.io.Serializable;
-import java.util.Date;
-
 /**
+ * POJO class for an individual assignment.
  * Created by Jacob on 2/17/18.
  */
 
@@ -70,12 +68,14 @@ class Assignment implements Serializable {
             return isDone;
         }
 
+        // Setters
         public void setTimeRemaining(int timeRem) {
             this.timeRemaining = timeRem;
         }
 
-        public void setDone() { this.isDone = true; } ////////////// Planning on using this
+        public void setDone() { this.isDone = true; }
 
+        // Used when storing locally into Shared Prefs
         public String serialize() {
             // Serialize this class into a JSON string using GSON
             Gson gson = new Gson();

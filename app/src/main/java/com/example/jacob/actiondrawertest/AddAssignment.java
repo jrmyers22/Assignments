@@ -19,17 +19,38 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * This class takes care of adding the assignment by verifying
+ * the data and making sure the date is not in the past.
+ * It also handles editing existing assignments.
+ */
 public class AddAssignment extends AppCompatActivity {
 
+    /** Demonstrates the cutoff number for time spacing */
     final int SPECIAL_NUM = 10;
+
+    /** Keeps track of number of assignments */
     static int numAssignments = 0;
+
+    /** Name of shared prefs for assignments */
     final String PREF_NAME = "Saved_Assignments";
+
+    /** List of assignments */
     static ArrayList<Assignment> assignments = new ArrayList<>();
+
+    /** Assignment Name instance */
     String nameStr;
+
+    /** Class name instance */
     String classNameStr;
+
+    /** Time instance */
     String timeStr;
+
+    /** Date instance */
     String dateStr;
-    int daysTil;
+
+    /** Instance used in Editing the assignment */
     Assignment selectedAssignment;
 
     @Override
@@ -58,13 +79,12 @@ public class AddAssignment extends AppCompatActivity {
         classBlank.setHint("Class");
 
 
+        // Button to set the time
         Button timeSetButton = findViewById(R.id.timeSetButton);
         timeSetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                String data = nameBlank.getText() + ", " + classBlank.getText();
                 final TextView tv = findViewById(R.id.timetv);
-//                tv.setText(data);
                 Calendar mcurrentTime = Calendar.getInstance();
                 int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mcurrentTime.get(Calendar.MINUTE);
@@ -87,6 +107,7 @@ public class AddAssignment extends AppCompatActivity {
             }
         });
 
+        // Button to set the date
         Button dateSetButton = findViewById(R.id.dateSetButton);
         dateSetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,31 +134,33 @@ public class AddAssignment extends AppCompatActivity {
             }
         });
 
+        // Cancel Button
         Button cancelButton = findViewById(R.id.cancelButton);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Date currentDate = Calendar.getInstance().getTime();
-//                Toast.makeText(getApplicationContext(), "Date: " + currentDate, Toast.LENGTH_LONG).show();
                 finish(); // Finishes the activity view
             }
         });
 
+        /**
+         * Save button. On Click, it makes sure
+         * all of the fields are filled out,
+         * makes sure the data is valid,
+         * and uses SharedPrefs to store locally.
+         */
         final Button saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 nameStr = nameBlank.getText().toString();
                 classNameStr = classBlank.getText().toString();
-                //timeStr already made
-                //dateStr already made
                 String isValidMsg = dataIsValid();
                 if (!(isValidMsg.equals(""))) {
                     Toast.makeText(AddAssignment.this, isValidMsg, Toast.LENGTH_LONG).show();
                 } else {
                     // Create our data object
                     Assignment newAssignment = new Assignment(nameStr, classNameStr, timeStr, dateStr);
-                    newAssignment.setTimeRemaining(daysTil);
 
                     // Serialize the object into a string
                     String serializedData = newAssignment.serialize();
@@ -156,9 +179,9 @@ public class AddAssignment extends AppCompatActivity {
                         finish();
                     }
 
-                    String allData = "Name: " + newAssignment.getName() + " Class: " + newAssignment.getClassName()
-                            + " Time: " + newAssignment.getTimeDue() + " Date: " + newAssignment.getDateDue();
-                    //Toast.makeText(AddAssignment.this, allData, Toast.LENGTH_LONG).show();
+                    String allData = newAssignment.getName() + "for " + newAssignment.getClassName()
+                            + " added successfully.";
+                    Toast.makeText(AddAssignment.this, allData, Toast.LENGTH_LONG).show();
                     setResult(RESULT_OK, null);
                     finish();
                 }
@@ -166,6 +189,14 @@ public class AddAssignment extends AppCompatActivity {
         });
 
     }
+
+    /**
+     * Assures that the given data is valid.
+     * Returns "__ is invalid" if they are empty,
+     * as well as if a date is in the
+     * past (including current day)
+     * @return Whether the entry is valid
+     */
     private String dataIsValid(){
         // Validate the inputs
         if (nameStr.equals("")) {
@@ -188,12 +219,6 @@ public class AddAssignment extends AppCompatActivity {
         int day = Integer.valueOf(dateSubStr.substring(0, dateSubStr.indexOf('/')));
         dateSubStr = dateSubStr.substring(dateSubStr.indexOf('/') + 1, dateSubStr.length());
         int year = Integer.valueOf(dateSubStr);
-        if (cYear == year) {
-            if (cMonth == month) {
-                daysTil = day - cDay;
-                //Toast.makeText(AddAssignment.this, daysTil, Toast.LENGTH_LONG).show();
-            }
-        }
         Log.d("Year","Current year: " + cYear + " Passed year: " + year);
         Log.d("Month","Current month: " + cMonth + " Passed year: " + month);
         Log.d("Day","Current day: " + cDay + " Passed day: " + day);

@@ -9,6 +9,15 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.Calendar;
+
+/**
+ * ViewAssignment receives an assignment from
+ * MainActivity, sets the values of the TextViews
+ * based on that assignment's props, and optionally
+ * sends that assignment to AddAssignment if the
+ * Edit button is pushed.
+ */
 public class ViewAssignment extends AppCompatActivity {
 
     @Override
@@ -16,6 +25,7 @@ public class ViewAssignment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_assignment);
 
+        // Get the assignment passed from the MainActivity
         Intent passedIntent = getIntent();
         final Assignment selectedAssignment = (Assignment) passedIntent.getSerializableExtra("selected");
 
@@ -27,10 +37,27 @@ public class ViewAssignment extends AppCompatActivity {
         TextView tDate = findViewById(R.id.timeDue);
         tDate.setText(selectedAssignment.getTimeDue());
         TextView dDate = findViewById(R.id.dayDue);
-        dDate.setText(selectedAssignment.getDateDue());
+        String dateStr = selectedAssignment.getDateDue();
+        dDate.setText(dateStr);
 
-        // TODO: Calculate the days 'til when the assignment is clicked on
+        // Calculate the days 'til when the assignment is clicked on
+        int daysTil = -1;
+        final Calendar c = Calendar.getInstance();
+        int cYear = c.get(Calendar.YEAR); // current year
+        int cMonth = c.get(Calendar.MONTH) + 1; // current month
+        int cDay = c.get(Calendar.DAY_OF_MONTH); // current day
+        int month = Integer.valueOf(dateStr.substring(0, dateStr.indexOf('/')));
+        String dateSubStr = dateStr.substring(dateStr.indexOf('/') + 1, dateStr.length());
+        int day = Integer.valueOf(dateSubStr.substring(0, dateSubStr.indexOf('/')));
+        dateSubStr = dateSubStr.substring(dateSubStr.indexOf('/') + 1, dateSubStr.length());
+        int year = Integer.valueOf(dateSubStr);
+        if (cYear == year) {
+            if (cMonth == month) {
+                daysTil = day - cDay;
+            }
+        }
         TextView timeRem = findViewById(R.id.timeRem);
+        selectedAssignment.setTimeRemaining(daysTil);
         timeRem.setText(selectedAssignment.getTimeRem());
 
         // TODO: Delete Removes the assignment (same as Remove functionality)
@@ -42,6 +69,7 @@ public class ViewAssignment extends AppCompatActivity {
             }
         });
 
+        // Sends the assignment to the "Add Assignment" activity.
         Button editButton = findViewById(R.id.editButton);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
