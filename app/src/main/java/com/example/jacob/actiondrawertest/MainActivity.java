@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -25,13 +27,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-//import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -145,7 +147,8 @@ public class MainActivity extends AppCompatActivity
             if (isIntentSafe) {
                 startActivity(webIntent);
             } else {
-                Toast.makeText(MainActivity.this, "Unable to open Browser.", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Unable to open Browser.",
+                        Toast.LENGTH_LONG).show();
             }
         }
 
@@ -182,9 +185,11 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        assignmentAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, assignmentNames){
+        assignmentAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
+                assignmentNames){
             @Override
             public View getView(int position, View convertView, ViewGroup parent){
+
                 // Get the current item from ListView
                 View view = super.getView(position,convertView,parent);
 
@@ -250,6 +255,8 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(), "Marked Done", Toast.LENGTH_LONG).show();
         }
         if(item.getTitle()=="Remove"){
+            getSharedPreferences(PREF_NAME, 0).edit().clear().apply();
+            displayListView();
 //            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 //            Log.i("ASSIGNMENTS", "GET ITEM AT: " + item.getItemId());
 //            String toRemove = assignmentNames.get(item.getItemId());

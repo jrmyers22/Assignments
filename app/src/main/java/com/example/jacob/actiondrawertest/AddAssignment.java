@@ -89,7 +89,8 @@ public class AddAssignment extends AppCompatActivity {
                 int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mcurrentTime.get(Calendar.MINUTE);
                 TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(AddAssignment.this, new TimePickerDialog.OnTimeSetListener() {
+                mTimePicker = new TimePickerDialog(AddAssignment.this,
+                        new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         String minStr = "";
@@ -167,7 +168,8 @@ public class AddAssignment extends AppCompatActivity {
 
                     // Save the serialized data into a shared preference
                     try {
-                        SharedPreferences preferencesReader = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+                        SharedPreferences preferencesReader = getSharedPreferences(PREF_NAME,
+                                Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferencesReader.edit();
                         editor.putString(nameStr, serializedData);
                         editor.apply();
@@ -179,8 +181,8 @@ public class AddAssignment extends AppCompatActivity {
                         finish();
                     }
 
-                    String allData = newAssignment.getName() + "for " + newAssignment.getClassName()
-                            + " added successfully.";
+                    String allData = newAssignment.getName() + " [" + newAssignment.getClassName()
+                            + "] added.";
                     Toast.makeText(AddAssignment.this, allData, Toast.LENGTH_LONG).show();
                     setResult(RESULT_OK, null);
                     finish();

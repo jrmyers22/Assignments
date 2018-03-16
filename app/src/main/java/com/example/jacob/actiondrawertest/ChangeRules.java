@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+// TODO: Comment
 public class ChangeRules extends AppCompatActivity {
 
     Activity activity = null;
