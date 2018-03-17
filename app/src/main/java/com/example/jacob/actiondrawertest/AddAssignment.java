@@ -230,7 +230,7 @@ public class AddAssignment extends AppCompatActivity {
             if (month < cMonth) {
                 return "Date must be in the future.";
             } else if (month == cMonth) {
-                if (day <= cDay) {
+                if (day < cDay) { // TODO: less than or equal
                     return "Date must be in the future.";
                 }
             }

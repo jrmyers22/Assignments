@@ -248,22 +248,32 @@ public class MainActivity extends AppCompatActivity
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
         menu.add(0, v.getId(), 0, "Mark Done");
         menu.add(0, v.getId(), 0, "Remove");
+        menu.add(0, v.getId(), 0, "Remove All");
     }
 
     public boolean onContextItemSelected(MenuItem item){
+
+
         if(item.getTitle()=="Mark Done"){
-            Toast.makeText(getApplicationContext(), "Marked Done", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "Marked Done", Toast.LENGTH_LONG).show();
+            AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            ListView lv = (ListView) menuInfo.targetView.getParent();
+            Toast.makeText(getApplicationContext(), "menuinfo: " + menuInfo, Toast.LENGTH_LONG).show();
+            //Log.d("GET PARENT", "Info: " + lv);
         }
         if(item.getTitle()=="Remove"){
-            getSharedPreferences(PREF_NAME, 0).edit().clear().apply();
-            displayListView();
 //            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 //            Log.i("ASSIGNMENTS", "GET ITEM AT: " + item.getItemId());
 //            String toRemove = assignmentNames.get(item.getItemId());
 //            assignmentNames.remove(toRemove);
 //            //assignmentAdapter.notify();
 //            displayListView();
-            Toast.makeText(getApplicationContext(), "Assignment Removed", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Marked Done", Toast.LENGTH_LONG).show();
+        }
+        if(item.getTitle()=="Remove All"){
+            getSharedPreferences(PREF_NAME, 0).edit().clear().apply();
+            this.recreate();
+            Toast.makeText(getApplicationContext(), "All Assignments Removed", Toast.LENGTH_LONG).show();
         }
         return true;
     }
