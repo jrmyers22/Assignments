@@ -79,10 +79,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    public void testToast() {
-        Toast.makeText(this, "Calling Update Display", Toast.LENGTH_LONG).show();
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -148,8 +144,7 @@ public class MainActivity extends AppCompatActivity
             if (isIntentSafe) {
                 startActivity(webIntent);
             } else {
-                Toast.makeText(MainActivity.this, "Unable to open Browser.",
-                        Toast.LENGTH_LONG).show();
+                toast("Unable to open Browser.");
             }
         }
 
@@ -170,8 +165,6 @@ public class MainActivity extends AppCompatActivity
             Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
             String serializedDataFromPreference = preferencesReader.getString(entry.getKey(), null);
             Assignment restoredAssignment = Assignment.create(serializedDataFromPreference);
-            String props = "name: " + restoredAssignment.getName() + " done: " + restoredAssignment.isDone();
-            Toast.makeText(this, "props: " + props, Toast.LENGTH_LONG).show();
             if (restoredAssignment != null) {
                 if (restoredAssignment.isDone()) {
                     if (!doneAssignments.contains(restoredAssignment)) {
@@ -225,7 +218,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 //                        String selection = "Selected: " + String.valueOf(adapterView.getItemAtPosition(position));
-//                        Toast.makeText(MainActivity.this, selection, Toast.LENGTH_LONG).show();
+//                        toast(selection);
 //                        Snackbar.make(view, "Selected: " + String.valueOf(adapterView.getItemAtPosition(position)), Snackbar.LENGTH_LONG)
 //                                .setAction("Action", null).show();
                         String selected = String.valueOf(adapterView.getItemAtPosition(position));
@@ -264,10 +257,9 @@ public class MainActivity extends AppCompatActivity
             Assignment tmp = assignments.get(info.position);
             tmp.setDone();
             doneAssignments.add(tmp);
-            Toast.makeText(getApplicationContext(), "Num done: " + doneAssignments.size(), Toast.LENGTH_LONG).show();
-            //this.recreate();
-            displayListView();
-//            Toast.makeText(getApplicationContext(), tmp.getName() + " marked Done.", Toast.LENGTH_LONG).show();
+            toast("Num done: " + doneAssignments.size());
+            this.recreate();
+            toast(tmp.getName() + " marked Done.");
         }
         if(item.getTitle()=="Remove"){ // Removes assignment from sharedPrefs then recreates
             assignmentNames.remove(info.position);
@@ -275,15 +267,22 @@ public class MainActivity extends AppCompatActivity
             assignments.remove(tmp);
             getSharedPreferences(PREF_NAME, 0).edit().remove(tmp.getName()).apply();
             this.recreate();
-            Toast.makeText(getApplicationContext(), tmp.getName() + " Removed", Toast.LENGTH_LONG).show();
+            toast(tmp.getName() + " Removed");
         }
         if(item.getTitle()=="Remove All"){ // Clears all sharedPrefs then recreates
             getSharedPreferences(PREF_NAME, 0).edit().clear().apply();
             this.recreate();
-            Toast.makeText(getApplicationContext(), "All Assignments Removed", Toast.LENGTH_LONG).show();
+            toast("All Assignments Removed");
         }
         return true;
     }
 
+    /**
+     * Wrapper to make a Toast message.
+     * @param msg Message to display
+     */
+    public void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
 
 }

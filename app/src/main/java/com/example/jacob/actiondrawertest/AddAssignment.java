@@ -157,7 +157,7 @@ public class AddAssignment extends AppCompatActivity {
                 classNameStr = classBlank.getText().toString();
                 String isValidMsg = dataIsValid();
                 if (!(isValidMsg.equals(""))) {
-                    Toast.makeText(AddAssignment.this, isValidMsg, Toast.LENGTH_LONG).show();
+                    toast(isValidMsg);
                 } else {
                     // Create our data object
                     Assignment newAssignment = new Assignment(nameStr, classNameStr, timeStr, dateStr);
@@ -175,14 +175,13 @@ public class AddAssignment extends AppCompatActivity {
                         assignments.add(newAssignment);
                         numAssignments++;
                     } catch (Exception e) {
-                        Toast.makeText(AddAssignment.this,
-                                "Error: Could not add assignment", Toast.LENGTH_LONG).show();
+                        toast("Error: Could not add assignment");
                         finish();
                     }
 
                     String allData = newAssignment.getName() + " [" + newAssignment.getClassName()
                             + "] added.";
-                    Toast.makeText(AddAssignment.this, allData, Toast.LENGTH_LONG).show();
+                    toast(allData);
                     setResult(RESULT_OK, null);
                     finish();
                 }
@@ -239,5 +238,13 @@ public class AddAssignment extends AppCompatActivity {
         }
 
         return "";
+    }
+
+    /**
+     * Wrapper to make a Toast message.
+     * @param msg Message to display
+     */
+    public void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 }
