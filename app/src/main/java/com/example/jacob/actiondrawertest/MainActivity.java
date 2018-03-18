@@ -20,6 +20,7 @@ import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,6 +170,8 @@ public class MainActivity extends AppCompatActivity
             Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
             String serializedDataFromPreference = preferencesReader.getString(entry.getKey(), null);
             Assignment restoredAssignment = Assignment.create(serializedDataFromPreference);
+            String props = "name: " + restoredAssignment.getName() + " done: " + restoredAssignment.isDone();
+            Toast.makeText(this, "props: " + props, Toast.LENGTH_LONG).show();
             if (restoredAssignment != null) {
                 if (restoredAssignment.isDone()) {
                     if (!doneAssignments.contains(restoredAssignment)) {
@@ -184,6 +187,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         }
+
 
         assignmentAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
                 assignmentNames){
@@ -252,25 +256,28 @@ public class MainActivity extends AppCompatActivity
     }
 
     public boolean onContextItemSelected(MenuItem item){
-
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//        ListView lv = (ListView) menuInfo.targetView.getParent();
 
         if(item.getTitle()=="Mark Done"){
-//            Toast.makeText(getApplicationContext(), "Marked Done", Toast.LENGTH_LONG).show();
-            AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            ListView lv = (ListView) menuInfo.targetView.getParent();
-            Toast.makeText(getApplicationContext(), "menuinfo: " + menuInfo, Toast.LENGTH_LONG).show();
-            //Log.d("GET PARENT", "Info: " + lv);
+            assignmentNames.remove(info.position);
+            Assignment tmp = assignments.get(info.position);
+            tmp.setDone();
+            doneAssignments.add(tmp);
+            Toast.makeText(getApplicationContext(), "Num done: " + doneAssignments.size(), Toast.LENGTH_LONG).show();
+            //this.recreate();
+            displayListView();
+//            Toast.makeText(getApplicationContext(), tmp.getName() + " marked Done.", Toast.LENGTH_LONG).show();
         }
-        if(item.getTitle()=="Remove"){
-//            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-//            Log.i("ASSIGNMENTS", "GET ITEM AT: " + item.getItemId());
-//            String toRemove = assignmentNames.get(item.getItemId());
-//            assignmentNames.remove(toRemove);
-//            //assignmentAdapter.notify();
-//            displayListView();
-            Toast.makeText(getApplicationContext(), "Marked Done", Toast.LENGTH_LONG).show();
+        if(item.getTitle()=="Remove"){ // Removes assignment from sharedPrefs then recreates
+            assignmentNames.remove(info.position);
+            Assignment tmp = assignments.get(info.position);
+            assignments.remove(tmp);
+            getSharedPreferences(PREF_NAME, 0).edit().remove(tmp.getName()).apply();
+            this.recreate();
+            Toast.makeText(getApplicationContext(), tmp.getName() + " Removed", Toast.LENGTH_LONG).show();
         }
-        if(item.getTitle()=="Remove All"){
+        if(item.getTitle()=="Remove All"){ // Clears all sharedPrefs then recreates
             getSharedPreferences(PREF_NAME, 0).edit().clear().apply();
             this.recreate();
             Toast.makeText(getApplicationContext(), "All Assignments Removed", Toast.LENGTH_LONG).show();

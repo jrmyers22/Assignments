@@ -62,9 +62,13 @@ public class AddAssignment extends AppCompatActivity {
         final EditText classBlank = findViewById(R.id.classBlank);
         final TextView tv = findViewById(R.id.timetv);
         timeStr = "23:00";
-        tv.setText("23:00");
+        tv.setText("23:00"); // Default of 11:00 PM
         final TextView dv = findViewById(R.id.datetv);
+        nameBlank.requestFocus(); // Place the cursor here first
+        nameBlank.setHint("Title");
+        classBlank.setHint("Class");
 
+        // For the "Edit Assignment" case
         Intent passedIntent = getIntent();
         if (passedIntent.hasExtra("selected")) {
             selectedAssignment = (Assignment) passedIntent.getSerializableExtra("selected");
@@ -73,11 +77,6 @@ public class AddAssignment extends AppCompatActivity {
             tv.setText(selectedAssignment.getTimeDue());
             dv.setText(selectedAssignment.getDateDue());
         }
-
-        nameBlank.requestFocus(); // Place the cursor here first
-        nameBlank.setHint("Title");
-        classBlank.setHint("Class");
-
 
         // Button to set the time
         Button timeSetButton = findViewById(R.id.timeSetButton);
@@ -140,7 +139,7 @@ public class AddAssignment extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish(); // Finishes the activity view
+                finish(); // Finishes the activity view in favor of previous activity
             }
         });
 
