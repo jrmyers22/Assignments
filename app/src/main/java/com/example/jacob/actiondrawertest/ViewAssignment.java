@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.Calendar;
 
 /**
@@ -27,10 +25,48 @@ public class ViewAssignment extends AppCompatActivity {
 
         // Get the assignment passed from the MainActivity
         Intent passedIntent = getIntent();
-        final Assignment selectedAssignment = (Assignment) passedIntent.getSerializableExtra("selected");
+        Assignment selectedAssignment = (Assignment) passedIntent.getSerializableExtra("selected");
 
-        // Action Bar title
-        setTitle(selectedAssignment.getName() + " Properties");
+        // Handles the case where the user clicks an item in the "done" list
+        if (selectedAssignment == null) {
+            selectedAssignment = (Assignment) passedIntent.getSerializableExtra("done");
+            createElements(selectedAssignment);
+        } else {
+            createElements(selectedAssignment);
+        }
+
+    }
+
+    /**
+     * Creates the elements on screen based on the name/status of the
+     * passed assignment. Put in a separate method to handle the case of
+     * clicking on a "done" item.
+     * @param selectedAssignment assignment passed from the MainAct or DoneAct
+     */
+    private void createElements(final Assignment selectedAssignment) {
+
+        // Doesn't display the edit button if the assignment is marked done.
+        Button editButton = findViewById(R.id.editButton);
+        if (!selectedAssignment.isDone()) {
+            // Action Bar title
+            setTitle(selectedAssignment.getName() + " Properties");
+
+            editButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ViewAssignment.this, AddAssignment.class);
+                    intent.putExtra("selected", selectedAssignment);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        } else {
+            // Action Bar title
+            setTitle(selectedAssignment.getName() + " Properties [DONE]");
+
+            editButton.setAlpha(0);
+            editButton.setEnabled(false);
+        }
 
         // Populate the properties fields
         TextView aName = findViewById(R.id.name);
@@ -63,14 +99,14 @@ public class ViewAssignment extends AppCompatActivity {
         selectedAssignment.setTimeRemaining(daysTil);
         timeRem.setText(selectedAssignment.getTimeRem());
 
-//        TextView statusText = findViewById(R.id.status);
-//        if (selectedAssignment.isDone()) {
-//            statusText.setTextColor(getResources().getColor(R.color.a_green));
-//            statusText.setText("DONE");
-//        } else {
-//            statusText.setTextColor(getResources().getColor(R.color.a_yellow));
-//            statusText.setText("In Progress");
-//        }
+        TextView statusText = findViewById(R.id.statusText);
+        if (selectedAssignment.isDone()) {
+            statusText.setTextColor(getResources().getColor(R.color.a_green));
+            statusText.setText("DONE");
+        } else {
+            statusText.setTextColor(getResources().getColor(R.color.a_yellow));
+            statusText.setText("In Progress");
+        }
 
         // TODO: Delete Removes the assignment (same as Remove functionality)
         Button deleteButton = findViewById(R.id.deleteButton);
@@ -80,6 +116,5 @@ public class ViewAssignment extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 }

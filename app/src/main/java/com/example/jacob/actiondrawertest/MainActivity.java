@@ -116,6 +116,18 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.about) {
             return true;
         }
+        if (id == R.id.remove_all) {
+            SharedPreferences preferencesReader = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+            Map<String, ?> allEntries = preferencesReader.getAll();
+            if (allEntries.size() == 0) {
+                toast("No Assignments to Remove");
+            } else {
+                getSharedPreferences(PREF_NAME, 0).edit().clear().apply();
+                this.recreate();
+                toast("All Assignments Removed");
+                return true;
+            }
+        }
 
         return super.onOptionsItemSelected(item);
     }

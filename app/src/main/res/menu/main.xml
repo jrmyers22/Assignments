@@ -6,4 +6,9 @@
         android:orderInCategory="100"
         android:title="@string/about"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/remove_all"
+        android:orderInCategory="100"
+        android:title="Remove All"
+        app:showAsAction="never" />
 </menu>
