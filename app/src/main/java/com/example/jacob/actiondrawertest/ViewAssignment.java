@@ -28,14 +28,17 @@ public class ViewAssignment extends AppCompatActivity {
         Intent passedIntent = getIntent();
         Assignment selectedAssignment = (Assignment) passedIntent.getSerializableExtra("selected");
 
+        /**
+         * TODO: Use the passed assignment's name to get the most
+         * updated shared prefs entry, set the isDone value based on that
+         */
+
         // Handles the case where the user clicks an item in the "done" list
         if (selectedAssignment == null) {
             selectedAssignment = (Assignment) passedIntent.getSerializableExtra("done");
             createElements(selectedAssignment, true);
-            //toast("Assignment is Done");
         } else {
             createElements(selectedAssignment, false);
-            //toast("NOT Done");
         }
 
     }
@@ -97,6 +100,7 @@ public class ViewAssignment extends AppCompatActivity {
             if (cMonth == month) {
                 daysTil = day - cDay;
             }
+            // TODO: Case where it's in a different month
         }
         TextView timeRem = findViewById(R.id.timeRem);
         selectedAssignment.setTimeRemaining(daysTil);
@@ -107,13 +111,12 @@ public class ViewAssignment extends AppCompatActivity {
             statusText.setTextColor(getResources().getColor(R.color.a_green));
             statusText.setText("DONE");
         } else {
-            statusText.setTextColor(getResources().getColor(R.color.a_yellow));
+            statusText.setTextColor(getResources().getColor(R.color.dark_yellow));
             statusText.setText("In Progress");
         }
 
-        // TODO: Delete Removes the assignment (same as Remove functionality)
-        Button deleteButton = findViewById(R.id.deleteButton);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
+        Button cancelButton = findViewById(R.id.cancelButton);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();

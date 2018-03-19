@@ -9,7 +9,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-// TODO: Comment
+// TODO: Finish & Comment
 public class Notifications extends AppCompatActivity {
 
     @Override

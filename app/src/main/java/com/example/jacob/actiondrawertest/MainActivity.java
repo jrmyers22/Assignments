@@ -254,7 +254,6 @@ public class MainActivity extends AppCompatActivity
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
         menu.add(0, v.getId(), 0, "Mark Done");
         menu.add(0, v.getId(), 0, "Remove");
-        menu.add(0, v.getId(), 0, "Remove All");
     }
 
     public boolean onContextItemSelected(MenuItem item){
@@ -264,20 +263,22 @@ public class MainActivity extends AppCompatActivity
             Assignment tmp = assignments.get(info.position);
             tmp.setDone();
 
-            // Remove assignment from lists
-            assignmentNames.remove(info.position);
-            assignments.remove(tmp);
-
             // Get the serialized string
-            String doneAssignment = getSharedPreferences(PREF_NAME,
-                    0).getString(tmp.getName(), "");
+            String doneAssignment = tmp.serialize();
 
-            // Write the serialized object to the "done" shared prefs
-            SharedPreferences preferencesReader = getSharedPreferences(DONE_NAME,
+            // Write the edited assignment to original list
+            SharedPreferences preferencesReader = getSharedPreferences(PREF_NAME,
                     Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferencesReader.edit();
             editor.putString(tmp.getName(), doneAssignment);
             editor.apply();
+
+            // Write the serialized object to the "done" shared prefs
+            SharedPreferences dPreferencesReader = getSharedPreferences(DONE_NAME,
+                    Context.MODE_PRIVATE);
+            SharedPreferences.Editor dEditor = dPreferencesReader.edit();
+            dEditor.putString(tmp.getName(), doneAssignment);
+            dEditor.apply();
 
             // Add the assignment to the "done" list
             doneAssignments.add(tmp);
@@ -285,7 +286,8 @@ public class MainActivity extends AppCompatActivity
             // Remove the assignment from the normal shared prefs
             //getSharedPreferences(PREF_NAME, 0).edit().remove(tmp.getName()).apply();
 
-            this.recreate();
+//            this.recreate();
+            displayListView();
             toast(tmp.getName() + " Marked Done");
         }
         if(item.getTitle()=="Remove"){ // Removes assignment from sharedPrefs then recreates
@@ -296,11 +298,7 @@ public class MainActivity extends AppCompatActivity
             this.recreate();
             toast(tmp.getName() + " Removed");
         }
-        if(item.getTitle()=="Remove All"){ // Clears all sharedPrefs then recreates
-            getSharedPreferences(PREF_NAME, 0).edit().clear().apply();
-            this.recreate();
-            toast("All Assignments Removed");
-        }
+
         return true;
     }
 

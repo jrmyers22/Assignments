@@ -75,9 +75,7 @@ public class DoneAssignments extends AppCompatActivity {
                 view.setLayoutParams(params);
 
                 // Set the background color of the cells
-//                if (position < 2) {
-                    view.setBackgroundColor(getResources().getColor(R.color.a_green));
-//                }
+                view.setBackgroundColor(getResources().getColor(R.color.a_green));
 
                 return view;
             }

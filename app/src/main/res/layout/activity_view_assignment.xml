@@ -25,12 +25,12 @@
         android:backgroundTint="@color/colorPrimary"
         android:text="Edit"
         android:textColor="@android:color/background_light"
-        app:layout_constraintBottom_toTopOf="@+id/deleteButton"
+        app:layout_constraintBottom_toTopOf="@+id/cancelButton"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
-        android:id="@+id/deleteButton"
+        android:id="@+id/cancelButton"
         android:layout_width="350dp"
         android:layout_height="70dp"
         android:layout_marginBottom="32dp"
