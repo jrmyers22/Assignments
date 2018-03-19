@@ -262,6 +262,7 @@ public class MainActivity extends AppCompatActivity
 
         if(item.getTitle()=="Mark Done"){
             Assignment tmp = assignments.get(info.position);
+            tmp.setDone();
 
             // Remove assignment from lists
             assignmentNames.remove(info.position);

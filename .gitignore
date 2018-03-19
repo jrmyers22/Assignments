@@ -1,1 +1,3 @@
 build/android-profile/*
+.idea/*
+.gradle/*

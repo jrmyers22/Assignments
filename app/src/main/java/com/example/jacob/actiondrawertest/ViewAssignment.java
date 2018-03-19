@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -30,9 +31,11 @@ public class ViewAssignment extends AppCompatActivity {
         // Handles the case where the user clicks an item in the "done" list
         if (selectedAssignment == null) {
             selectedAssignment = (Assignment) passedIntent.getSerializableExtra("done");
-            createElements(selectedAssignment);
+            createElements(selectedAssignment, true);
+            //toast("Assignment is Done");
         } else {
-            createElements(selectedAssignment);
+            createElements(selectedAssignment, false);
+            //toast("NOT Done");
         }
 
     }
@@ -43,11 +46,11 @@ public class ViewAssignment extends AppCompatActivity {
      * clicking on a "done" item.
      * @param selectedAssignment assignment passed from the MainAct or DoneAct
      */
-    private void createElements(final Assignment selectedAssignment) {
+    private void createElements(final Assignment selectedAssignment, boolean isDone) {
 
         // Doesn't display the edit button if the assignment is marked done.
         Button editButton = findViewById(R.id.editButton);
-        if (!selectedAssignment.isDone()) {
+        if (!isDone) {
             // Action Bar title
             setTitle(selectedAssignment.getName() + " Properties");
 
@@ -100,7 +103,7 @@ public class ViewAssignment extends AppCompatActivity {
         timeRem.setText(selectedAssignment.getTimeRem());
 
         TextView statusText = findViewById(R.id.statusText);
-        if (selectedAssignment.isDone()) {
+        if (isDone) {
             statusText.setTextColor(getResources().getColor(R.color.a_green));
             statusText.setText("DONE");
         } else {
@@ -116,5 +119,13 @@ public class ViewAssignment extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    /**
+     * Wrapper to make a Toast message.
+     * @param msg Message to display
+     */
+    public void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 }
