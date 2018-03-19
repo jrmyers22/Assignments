@@ -29,7 +29,7 @@
         android:layout_height="54dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:foreground="@drawable/ic_add"
+        android:foreground="@drawable/ic_add_circ_red"
         app:backgroundTint="@android:color/background_light"
         tools:layout_editor_absoluteX="311dp"
         tools:layout_editor_absoluteY="497dp" />

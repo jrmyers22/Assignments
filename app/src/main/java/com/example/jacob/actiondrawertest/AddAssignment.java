@@ -57,6 +57,7 @@ public class AddAssignment extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_assignment);
+        setTitle("Add an Assignment");
 
         final EditText nameBlank = findViewById(R.id.nameBlank);
         final EditText classBlank = findViewById(R.id.classBlank);
@@ -72,6 +73,7 @@ public class AddAssignment extends AppCompatActivity {
         Intent passedIntent = getIntent();
         if (passedIntent.hasExtra("selected")) {
             selectedAssignment = (Assignment) passedIntent.getSerializableExtra("selected");
+            setTitle("Edit \'" + selectedAssignment.getName() + "\'");
             nameBlank.setText(selectedAssignment.getName());
             classBlank.setText(selectedAssignment.getClassName());
             tv.setText(selectedAssignment.getTimeDue());

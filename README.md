@@ -18,12 +18,14 @@ https://drive.google.com/drive/u/0/folders/1IuitPQHB_kF8mRTA-AcNIBug6orwwu1s
 - [x] Click on a list item to view more information
 - [x] Retrieve assignments on app start
 - [x] Use SharedPreferences to store Assignment objects 
+- [x] Ability to long press on a list item to "Remove" 
+- [x] Keep list of "Done" items
+- [x] Ability to long press on a list item to "Mark Done" (does not remove from list)
+- [x] Cancel/Back floating button in Done list
+- Add "status" option to the assignment view
 - Add class name and days 'til in the list view
 - The list items change color based on the days 'til value
 - The list items rearrange to have the most important assignments at the top
-- Ability to long press on a list item to "Mark Done" (does not remove from list)
-- Ability to long press on a list item to "Remove" 
-- Keep list of "Done" items
 - Edit an existing list item and save the edits
 - Send notifications daily at ~7am
 - Integrate the app with the existing Google spreadsheet

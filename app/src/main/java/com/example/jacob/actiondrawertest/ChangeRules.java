@@ -21,6 +21,7 @@ public class ChangeRules extends AppCompatActivity {
         activity = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_rules);
+        setTitle("Change Theme Rules");
 
         Button saveButton = findViewById(R.id.cancelButton);
         saveButton.setOnClickListener(new View.OnClickListener() {

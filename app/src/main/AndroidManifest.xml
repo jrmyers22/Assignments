@@ -28,7 +28,8 @@
             android:label="@string/title_activity_change_rules"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ViewAssignment" />
-        <activity android:name=".ChangeRules"></activity>
+        <activity android:name=".ChangeRules" />
+        <activity android:name=".DoneAssignments"></activity>
     </application>
 
 </manifest>

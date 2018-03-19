@@ -16,6 +16,7 @@ public class Notifications extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
+        setTitle("Notifications");
 
         Switch switch_button = findViewById(R.id.on_switch);
         switch_button.setChecked(true);

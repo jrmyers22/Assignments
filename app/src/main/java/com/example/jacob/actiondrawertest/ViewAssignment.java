@@ -29,6 +29,9 @@ public class ViewAssignment extends AppCompatActivity {
         Intent passedIntent = getIntent();
         final Assignment selectedAssignment = (Assignment) passedIntent.getSerializableExtra("selected");
 
+        // Action Bar title
+        setTitle(selectedAssignment.getName() + " Properties");
+
         // Populate the properties fields
         TextView aName = findViewById(R.id.name);
         aName.setText(selectedAssignment.getName());
@@ -60,6 +63,15 @@ public class ViewAssignment extends AppCompatActivity {
         selectedAssignment.setTimeRemaining(daysTil);
         timeRem.setText(selectedAssignment.getTimeRem());
 
+//        TextView statusText = findViewById(R.id.status);
+//        if (selectedAssignment.isDone()) {
+//            statusText.setTextColor(getResources().getColor(R.color.a_green));
+//            statusText.setText("DONE");
+//        } else {
+//            statusText.setTextColor(getResources().getColor(R.color.a_yellow));
+//            statusText.setText("In Progress");
+//        }
+
         // TODO: Delete Removes the assignment (same as Remove functionality)
         Button deleteButton = findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -69,16 +81,5 @@ public class ViewAssignment extends AppCompatActivity {
             }
         });
 
-        // Sends the assignment to the "Add Assignment" activity.
-        Button editButton = findViewById(R.id.editButton);
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ViewAssignment.this, AddAssignment.class);
-                intent.putExtra("selected", selectedAssignment);
-                startActivity(intent);
-                finish();
-            }
-        });
     }
 }

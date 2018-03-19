@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     final String PREF_NAME = "Saved_Assignments";
+    final String DONE_NAME = "Done_Assignments";
     public ArrayList<Assignment> assignments;
     public ArrayList<Assignment> doneAssignments;
     public ArrayList<String> assignmentNames;
@@ -126,8 +127,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.marked_done) {
-//            Intent intent = new Intent(MainActivity.this, AddAssignment.class);
-//            startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, DoneAssignments.class);
+            startActivity(intent);
         } else if (id == R.id.notifications) {
             Intent intent = new Intent(MainActivity.this, Notifications.class);
             startActivity(intent);
@@ -217,10 +218,6 @@ public class MainActivity extends AppCompatActivity
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                        String selection = "Selected: " + String.valueOf(adapterView.getItemAtPosition(position));
-//                        toast(selection);
-//                        Snackbar.make(view, "Selected: " + String.valueOf(adapterView.getItemAtPosition(position)), Snackbar.LENGTH_LONG)
-//                                .setAction("Action", null).show();
                         String selected = String.valueOf(adapterView.getItemAtPosition(position));
                         Assignment selectedAssignment = null;
                         for (int i = 0; i < assignments.size(); i++){
@@ -250,16 +247,33 @@ public class MainActivity extends AppCompatActivity
 
     public boolean onContextItemSelected(MenuItem item){
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-//        ListView lv = (ListView) menuInfo.targetView.getParent();
 
         if(item.getTitle()=="Mark Done"){
-            assignmentNames.remove(info.position);
             Assignment tmp = assignments.get(info.position);
-            tmp.setDone();
+
+            // Remove assignment from lists
+            assignmentNames.remove(info.position);
+            assignments.remove(tmp);
+
+            // Get the serialized string
+            String doneAssignment = getSharedPreferences(PREF_NAME,
+                    0).getString(tmp.getName(), "");
+
+            // Write the serialized object to the "done" shared prefs
+            SharedPreferences preferencesReader = getSharedPreferences(DONE_NAME,
+                    Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferencesReader.edit();
+            editor.putString(tmp.getName(), doneAssignment);
+            editor.apply();
+
+            // Add the assignment to the "done" list
             doneAssignments.add(tmp);
-            toast("Num done: " + doneAssignments.size());
+
+            // Remove the assignment from the normal shared prefs
+            //getSharedPreferences(PREF_NAME, 0).edit().remove(tmp.getName()).apply();
+
             this.recreate();
-            toast(tmp.getName() + " marked Done.");
+            toast(tmp.getName() + " Marked Done");
         }
         if(item.getTitle()=="Remove"){ // Removes assignment from sharedPrefs then recreates
             assignmentNames.remove(info.position);
