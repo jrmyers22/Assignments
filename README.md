@@ -24,20 +24,20 @@ https://drive.google.com/drive/u/0/folders/1IuitPQHB_kF8mRTA-AcNIBug6orwwu1s
 - [x] Cancel/Back floating button in Done list
 - [x] Add "status" option to the assignment view
 - [x] Edit an existing list item and save the edits
-- Calculate daysTil when in different month
-- Add class name and days 'til in the list view
-- The list items change color based on the days 'til value
-- The list items rearrange to have the most important assignments at the top
-- Send notifications daily at ~7am
-- Integrate the app with the existing Google spreadsheet
-- Convert app to run on multiple threads for better performance
+- [ ] Calculate daysTil when in different month
+- [ ] Add class name and days 'til in the list view
+- [ ] The list items change color based on the days 'til value
+- [ ] The list items rearrange to have the most important assignments at the top
+- [ ] Send notifications daily at ~7am
+- [ ] Integrate the app with the existing Google spreadsheet
+- [ ] Convert app to run on multiple threads for better performance
 
 ## Stretch Goals
 
-- Dialog box on first open to tell you what is most important (like spreadsheet)
-- Tutorial on first open
-- Notification when assignment has passed, ability to "Mark Done"
-- Google assistant integration to be able to ask for upcoming assignments
-- Pull down to sync (with loading animation)
-- App shortcuts by long pressing the home screen shortcut
-- Fingerprint authentication (?? just to see how to implement)
+- [ ] Dialog box on first open to tell you what is most important (like spreadsheet)
+- [ ] Tutorial on first open
+- [ ] Notification when assignment has passed, ability to "Mark Done"
+- [ ] Google assistant integration to be able to ask for upcoming assignments
+- [ ] Pull down to sync (with loading animation)
+- [ ] App shortcuts by long pressing the home screen shortcut
+- [ ] Fingerprint authentication (?? just to see how to implement)
