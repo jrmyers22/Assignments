@@ -60,7 +60,7 @@ public class ViewAssignment extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(ViewAssignment.this, AddAssignment.class);
-                    intent.putExtra("selected", selectedAssignment);
+                    intent.putExtra("edit", selectedAssignment);
                     startActivity(intent);
                     finish();
                 }

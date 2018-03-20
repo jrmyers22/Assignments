@@ -50,6 +50,9 @@ public class AddAssignment extends AppCompatActivity {
     /** Date instance */
     String dateStr;
 
+    /** Determines whether we are editing an existing assignment */
+    boolean isEditMode;
+
     /** Instance used in Editing the assignment */
     Assignment selectedAssignment;
 
@@ -59,6 +62,7 @@ public class AddAssignment extends AppCompatActivity {
         setContentView(R.layout.activity_add_assignment);
         setTitle("Add an Assignment");
 
+        isEditMode = false;
         final EditText nameBlank = findViewById(R.id.nameBlank);
         final EditText classBlank = findViewById(R.id.classBlank);
         final TextView tv = findViewById(R.id.timetv);
@@ -71,9 +75,11 @@ public class AddAssignment extends AppCompatActivity {
 
         // For the "Edit Assignment" case
         Intent passedIntent = getIntent();
-        if (passedIntent.hasExtra("selected")) {
-            selectedAssignment = (Assignment) passedIntent.getSerializableExtra("selected");
+        if (passedIntent.hasExtra("edit")) {
+            isEditMode = true;
+            selectedAssignment = (Assignment) passedIntent.getSerializableExtra("edit");
             setTitle("Edit \'" + selectedAssignment.getName() + "\'");
+            getSharedPreferences(PREF_NAME, 0).edit().remove(selectedAssignment.getName()).apply();
             nameBlank.setText(selectedAssignment.getName());
             classBlank.setText(selectedAssignment.getClassName());
             tv.setText(selectedAssignment.getTimeDue());
@@ -181,11 +187,20 @@ public class AddAssignment extends AppCompatActivity {
                         finish();
                     }
 
-                    String allData = newAssignment.getName() + " [" + newAssignment.getClassName()
-                            + "] added.";
-                    toast(allData);
-                    setResult(RESULT_OK, null);
-                    finish();
+                    if (isEditMode) {
+                        toast(newAssignment.getName() + " [" + newAssignment.getClassName()
+                                + "] edited.");
+                        setResult(RESULT_OK, null);
+                        Intent intent = new Intent(AddAssignment.this,
+                                MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        toast(newAssignment.getName() + " [" + newAssignment.getClassName()
+                                + "] added.");
+                        setResult(RESULT_OK, null);
+                        finish();
+                    }
+
                 }
             }
         });
