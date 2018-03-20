@@ -56,14 +56,14 @@
         android:layout_width="72dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/email_val"
         android:layout_width="101dp"
-        android:layout_height="26dp"
+        android:layout_height="27dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="30dp"
@@ -78,7 +78,7 @@
     <TextView
         android:id="@+id/device_val"
         android:layout_width="116dp"
-        android:layout_height="26dp"
+        android:layout_height="29dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="30dp"
@@ -90,32 +90,32 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/on_switch" />
 
-    <android.support.design.widget.FloatingActionButton
+    <Button
         android:id="@+id/saveButton"
-        android:layout_width="57dp"
-        android:layout_height="54dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:layout_marginBottom="32dp"
-        android:layout_marginRight="16dp"
-        android:foreground="@drawable/ic_success"
-        android:tooltipText="Add Assignment"
-        app:backgroundTint="@android:color/background_light"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/cancelButton"
-        android:layout_width="57dp"
-        android:layout_height="54dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
+        android:layout_width="350dp"
+        android:layout_height="70dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:foreground="@drawable/ic_back"
-        android:tooltipText="Add Assignment"
-        app:backgroundTint="@android:color/background_light"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Save"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toTopOf="@+id/cancelButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="350dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="?attr/colorButtonNormal"
+        android:text="Cancel"
+        android:textColor="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

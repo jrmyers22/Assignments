@@ -29,6 +29,7 @@ https://drive.google.com/drive/u/0/folders/1IuitPQHB_kF8mRTA-AcNIBug6orwwu1s
 - [ ] The list items change color based on the days 'til value
 - [ ] The list items rearrange to have the most important assignments at the top
 - [ ] Send notifications daily at ~7am
+- [ ] Put screenshots in README
 - [ ] Integrate the app with the existing Google spreadsheet
 - [ ] Convert app to run on multiple threads for better performance
 

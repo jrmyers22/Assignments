@@ -69,43 +69,15 @@ public class ChangeRules extends AppCompatActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
         String[] viewElem = v.toString().split(" ");
         String id = viewElem[viewElem.length - 1];
-        if (id.contains("mostImportant")) {
-            setUpMenu(menu, v, "Most Important");
-        } else if (id.contains("secondMost")) {
-            setUpMenu(menu, v, "2nd Most");
-        } else if (id.contains("leastImportant")) {
-            setUpMenu(menu, v, "Least Important");
-        }
 
     }
-    @Override
-    public boolean onContextItemSelected(MenuItem item){
-        if(item.getTitle()=="Call"){
-            Toast.makeText(getApplicationContext(),"calling code",Toast.LENGTH_LONG).show();
-        }
-        else if(item.getTitle()=="SMS"){
-            Toast.makeText(getApplicationContext(),"sending sms code",Toast.LENGTH_LONG).show();
-        }else{
-            return false;
-        }
-        return true;
+
+    /**
+     * Wrapper to make a Toast message.
+     * @param msg Message to display
+     */
+    public void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    public void setUpMenu(ContextMenu menu, View v, String id) {
-        String titleStr = "Assignments";
-        if (id.equals("Most Important")) {
-            titleStr = id;
-        } else if (id.equals("2nd Most")) {
-            titleStr = id;
-        } else if (id.equals("Least Important")) {
-            titleStr = id;
-        }
-
-        menu.setHeaderTitle("Change \'" + titleStr + "\' Rule");
-        menu.add(0, v.getId(), 0, "less than 2 days");//groupId, itemId, order, title
-        menu.add(0, v.getId(), 0, "less than 3 days");
-        menu.add(0, v.getId(), 0, "less than 4 days");
-        menu.add(0, v.getId(), 0, "less than 5 days");
-        menu.add(0, v.getId(), 0, "more than 5 days");
-    }
 }

@@ -56,7 +56,7 @@ public class Notifications extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton addButton = findViewById(R.id.saveButton);
+        Button addButton = findViewById(R.id.saveButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,7 +64,7 @@ public class Notifications extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton cancelButton = findViewById(R.id.cancelButton);
+        Button cancelButton = findViewById(R.id.cancelButton);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,5 +72,13 @@ public class Notifications extends AppCompatActivity {
             }
         });
 
+    }
+
+    /**
+     * Wrapper to make a Toast message.
+     * @param msg Message to display
+     */
+    public void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

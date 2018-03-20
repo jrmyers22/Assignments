@@ -39,11 +39,22 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    /** Shared Preferences name for the regular list */
     final String PREF_NAME = "Saved_Assignments";
+
+    /** Shared Preferences name for the done list */
     final String DONE_NAME = "Done_Assignments";
+
+    /** List of regular assignments retrieved from SP */
     public ArrayList<Assignment> assignments;
+
+    /** List of done assignments retrieved from SP */
     public ArrayList<Assignment> doneAssignments;
+
+    /** List of assignment names used when populating list view */
     public ArrayList<String> assignmentNames;
+
+    /** Adapter for the main list view */
     ListAdapter assignmentAdapter;
 
     @Override
@@ -80,6 +91,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /**
+     * Determines whether to refresh the list view, based
+     * on the resultCode from the "AddActivity" class. Refreshes
+     * when notified that a new activity has been added.
+     * @param requestCode request code
+     * @param resultCode Code returned from child activity
+     * @param data data returned
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -88,6 +107,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Closes the Navigation Drawer when the back
+     * button is pressed. Useful when the user returns
+     * to the Main Activity from a different activity.
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -98,6 +122,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Creates the options menu in the Action Bar.
+     * @param menu object containing menu properties.
+     * @return true if the options menu is inflated.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -105,6 +134,12 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Either shows a tutorial or removes all of the
+     * main list entries, depending on the parameter.
+     * @param item The item selected.
+     * @return true if the item's task has succeeded.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -132,6 +167,13 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Determines which Activity to send the user
+     * to based on which Navigation Drawer Item they
+     * select.
+     * @param item Navigation Drawer item selected.
+     * @return true if the activity was started correctly.
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -167,6 +209,74 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Creates the small context menu when a list item
+     * is long pressed.
+     * @param menu menu created
+     * @param v View metadata
+     * @param menuInfo menu metadata
+     */
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
+        menu.add(0, v.getId(), 0, "Mark Done");
+        menu.add(0, v.getId(), 0, "Remove");
+    }
+
+    /**
+     * Either marks the assignment "done" (doesn't remove from home list)
+     * or removes the assignment from home list view (not done list).
+     * @param item selected by the user.
+     * @return true if the corresponding code fires correctly.
+     */
+    public boolean onContextItemSelected(MenuItem item){
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        if(item.getTitle()=="Mark Done"){
+            Assignment tmp = assignments.get(info.position);
+            tmp.setDone();
+
+            // Get the serialized string
+            String doneAssignment = tmp.serialize();
+
+            // Write the edited assignment to original list
+            SharedPreferences preferencesReader = getSharedPreferences(PREF_NAME,
+                    Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferencesReader.edit();
+            editor.putString(tmp.getName(), doneAssignment);
+            editor.apply();
+
+            // Write the serialized object to the "done" shared prefs
+            SharedPreferences dPreferencesReader = getSharedPreferences(DONE_NAME,
+                    Context.MODE_PRIVATE);
+            SharedPreferences.Editor dEditor = dPreferencesReader.edit();
+            dEditor.putString(tmp.getName(), doneAssignment);
+            dEditor.apply();
+
+            // Add the assignment to the "done" list
+            doneAssignments.add(tmp);
+
+            // Remove the assignment from the normal shared prefs
+            getSharedPreferences(PREF_NAME, 0).edit().remove(tmp.getName()).apply();
+
+//            this.recreate();
+            displayListView();
+            toast(tmp.getName() + " Marked Done");
+        }
+        if(item.getTitle()=="Remove"){ // Removes assignment from sharedPrefs then recreates
+            assignmentNames.remove(info.position);
+            Assignment tmp = assignments.get(info.position);
+            assignments.remove(tmp);
+            getSharedPreferences(PREF_NAME, 0).edit().remove(tmp.getName()).apply();
+            this.recreate();
+            toast(tmp.getName() + " Removed");
+        }
+
+        return true;
+    }
+
+    /**
+     * Populates the main list view with all of the non-done
+     * assignments pulled from SharedPrefs.
+     */
     public void displayListView() {
 
         // Put in loop to get all stored assignment
@@ -257,63 +367,12 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
-        menu.add(0, v.getId(), 0, "Mark Done");
-        menu.add(0, v.getId(), 0, "Remove");
-    }
-
-    public boolean onContextItemSelected(MenuItem item){
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-        if(item.getTitle()=="Mark Done"){
-            Assignment tmp = assignments.get(info.position);
-            tmp.setDone();
-
-            // Get the serialized string
-            String doneAssignment = tmp.serialize();
-
-            // Write the edited assignment to original list
-            SharedPreferences preferencesReader = getSharedPreferences(PREF_NAME,
-                    Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferencesReader.edit();
-            editor.putString(tmp.getName(), doneAssignment);
-            editor.apply();
-
-            // Write the serialized object to the "done" shared prefs
-            SharedPreferences dPreferencesReader = getSharedPreferences(DONE_NAME,
-                    Context.MODE_PRIVATE);
-            SharedPreferences.Editor dEditor = dPreferencesReader.edit();
-            dEditor.putString(tmp.getName(), doneAssignment);
-            dEditor.apply();
-
-            // Add the assignment to the "done" list
-            doneAssignments.add(tmp);
-
-            // Remove the assignment from the normal shared prefs
-            getSharedPreferences(PREF_NAME, 0).edit().remove(tmp.getName()).apply();
-
-//            this.recreate();
-            displayListView();
-            toast(tmp.getName() + " Marked Done");
-        }
-        if(item.getTitle()=="Remove"){ // Removes assignment from sharedPrefs then recreates
-            assignmentNames.remove(info.position);
-            Assignment tmp = assignments.get(info.position);
-            assignments.remove(tmp);
-            getSharedPreferences(PREF_NAME, 0).edit().remove(tmp.getName()).apply();
-            this.recreate();
-            toast(tmp.getName() + " Removed");
-        }
-
-        return true;
-    }
-
     /**
      * Wrapper to make a Toast message.
      * @param msg Message to display
      */
     public void toast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
 }
