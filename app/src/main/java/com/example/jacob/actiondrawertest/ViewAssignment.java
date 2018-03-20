@@ -1,6 +1,8 @@
 package com.example.jacob.actiondrawertest;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +21,8 @@ import java.util.Calendar;
  */
 public class ViewAssignment extends AppCompatActivity {
 
+    final String PREF_NAME = "Saved_Assignments";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,11 +31,6 @@ public class ViewAssignment extends AppCompatActivity {
         // Get the assignment passed from the MainActivity
         Intent passedIntent = getIntent();
         Assignment selectedAssignment = (Assignment) passedIntent.getSerializableExtra("selected");
-
-        /**
-         * TODO: Use the passed assignment's name to get the most
-         * updated shared prefs entry, set the isDone value based on that
-         */
 
         // Handles the case where the user clicks an item in the "done" list
         if (selectedAssignment == null) {
@@ -55,7 +54,7 @@ public class ViewAssignment extends AppCompatActivity {
         Button editButton = findViewById(R.id.editButton);
         if (!isDone) {
             // Action Bar title
-            setTitle(selectedAssignment.getName() + " Properties");
+            setTitle(selectedAssignment.getName());
 
             editButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -68,7 +67,7 @@ public class ViewAssignment extends AppCompatActivity {
             });
         } else {
             // Action Bar title
-            setTitle(selectedAssignment.getName() + " Properties [DONE]");
+            setTitle(selectedAssignment.getName() + " [DONE]");
 
             editButton.setAlpha(0);
             editButton.setEnabled(false);

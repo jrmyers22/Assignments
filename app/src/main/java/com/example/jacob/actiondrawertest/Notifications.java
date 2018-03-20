@@ -1,5 +1,6 @@
 package com.example.jacob.actiondrawertest;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -54,12 +55,22 @@ public class Notifications extends AppCompatActivity {
                 }
             }
         });
-        Button cancelButton = findViewById(R.id.cancelButton);
+
+        FloatingActionButton addButton = findViewById(R.id.saveButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        FloatingActionButton cancelButton = findViewById(R.id.cancelButton);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish(); // Finishes the activity view
+                finish();
             }
         });
+
     }
 }

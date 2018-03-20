@@ -39,6 +39,22 @@ public class DoneAssignments extends AppCompatActivity {
             }
         });
 
+        FloatingActionButton doneButton = findViewById(R.id.fab_clear);
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences preferencesReader = getSharedPreferences(DONE_NAME, Context.MODE_PRIVATE);
+                Map<String, ?> allEntries = preferencesReader.getAll();
+                if (allEntries.size() == 0) {
+                    toast("No Assignments to Remove");
+                } else {
+                    getSharedPreferences(DONE_NAME, 0).edit().clear().apply();
+                    recreate();
+                    toast("All Assignments Removed");
+                }
+            }
+        });
+
         // Instantiate Lists
         doneAssignments = new ArrayList<>();
         assignmentNames = new ArrayList<>();

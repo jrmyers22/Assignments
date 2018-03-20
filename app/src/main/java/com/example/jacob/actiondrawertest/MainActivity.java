@@ -241,7 +241,13 @@ public class MainActivity extends AppCompatActivity
                             throw new IllegalArgumentException("Selected assignment was null");
                         }
                         Intent intent = new Intent(MainActivity.this, ViewAssignment.class);
-                        intent.putExtra("selected", selectedAssignment);
+
+                        // Updates the status for the main list view
+                        if (selectedAssignment.isDone()) {
+                            intent.putExtra("done", selectedAssignment);
+                        } else {
+                            intent.putExtra("selected", selectedAssignment);
+                        }
                         startActivity(intent);
                     }
                 }
@@ -284,11 +290,12 @@ public class MainActivity extends AppCompatActivity
             doneAssignments.add(tmp);
 
             // Remove the assignment from the normal shared prefs
-            //getSharedPreferences(PREF_NAME, 0).edit().remove(tmp.getName()).apply();
+            getSharedPreferences(PREF_NAME, 0).edit().remove(tmp.getName()).apply();
 
 //            this.recreate();
             displayListView();
-            toast(tmp.getName() + " Marked Done");
+            //toast(tmp.getName() + " Marked Done");
+            toast("Is done? " + tmp.isDone());
         }
         if(item.getTitle()=="Remove"){ // Removes assignment from sharedPrefs then recreates
             assignmentNames.remove(info.position);
