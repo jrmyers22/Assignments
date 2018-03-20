@@ -294,8 +294,7 @@ public class MainActivity extends AppCompatActivity
 
 //            this.recreate();
             displayListView();
-            //toast(tmp.getName() + " Marked Done");
-            toast("Is done? " + tmp.isDone());
+            toast(tmp.getName() + " Marked Done");
         }
         if(item.getTitle()=="Remove"){ // Removes assignment from sharedPrefs then recreates
             assignmentNames.remove(info.position);
