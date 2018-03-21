@@ -101,12 +101,16 @@ public class ViewAssignment extends AppCompatActivity {
         int year = Integer.valueOf(dateSubStr);
         String cDate = cDay + "/" + cMonth + "/" + cYear;
         String inDate = day + "/" + month + "/" + year;
-        daysTil = getCountOfDays(cDate, inDate);
 
-        TextView timeRem = findViewById(R.id.timeRem);
+        // Calculate and set the days remaining.
+        daysTil = getCountOfDays(cDate, inDate);
         selectedAssignment.setTimeRemaining(daysTil);
+
+        // Update the UI to reflect days remaining.
+        TextView timeRem = findViewById(R.id.timeRem);
         timeRem.setText(selectedAssignment.getTimeRem());
 
+        // Green if Done, Yellow if In Progress
         TextView statusText = findViewById(R.id.statusText);
         if (isDone) {
             statusText.setTextColor(getResources().getColor(R.color.a_green));
@@ -127,7 +131,7 @@ public class ViewAssignment extends AppCompatActivity {
 
     /**
      * Stack Overflow method to compute days in between
-     * two dates. Could also use JodaTime API.
+     * two dates. Could (preferably) use JodaTime API.
      * Can be found at:
      * https://stackoverflow.com/
      * questions/23323792/android-days-between-two-dates/37659716
@@ -166,13 +170,6 @@ public class ViewAssignment extends AppCompatActivity {
             cMonth = cCal.get(Calendar.MONTH);
             cDay = cCal.get(Calendar.DAY_OF_MONTH);
         }
-
-
-    /*Calendar todayCal = Calendar.getInstance();
-    int todayYear = todayCal.get(Calendar.YEAR);
-    int today = todayCal.get(Calendar.MONTH);
-    int todayDay = todayCal.get(Calendar.DAY_OF_MONTH);
-    */
 
         Calendar eCal = Calendar.getInstance();
         eCal.setTime(expireCovertedDate);

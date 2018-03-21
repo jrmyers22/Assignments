@@ -25,6 +25,7 @@ https://drive.google.com/drive/u/0/folders/1IuitPQHB_kF8mRTA-AcNIBug6orwwu1s
 - [x] Add "status" option to the assignment view
 - [x] Edit an existing list item and save the edits
 - [x] Calculate daysTil when in different month (did not use JodaTime)
+- [ ] Pop up to confirm when "remove all" is chosen (both normal and done lists)
 - [ ] Add class name and days 'til in the list view
 - [ ] The list items change color based on the days 'til value
 - [ ] The list items rearrange to have the most important assignments at the top
@@ -36,7 +37,8 @@ https://drive.google.com/drive/u/0/folders/1IuitPQHB_kF8mRTA-AcNIBug6orwwu1s
 ## Stretch Goals
 
 - [ ] Dialog box on first open to tell you what is most important (like spreadsheet)
-- [ ] "Final Dates" screen
+- [ ] Ability to "Mark Done" from the ViewAssignment screen
+- [ ] "Date of Class's Final" screen
 - [ ] Tutorial on first open
 - [ ] Notification when assignment has passed, ability to "Mark Done"
 - [ ] Google assistant integration to be able to ask for upcoming assignments
