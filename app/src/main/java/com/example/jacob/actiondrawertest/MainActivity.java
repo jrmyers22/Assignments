@@ -311,12 +311,11 @@ public class MainActivity extends AppCompatActivity
             public View getView(int position, View convertView, ViewGroup parent){
 
                 // Get the current item from ListView
-                View view = super.getView(position,convertView,parent);
+                View view = super.getView(position, convertView, parent);
 
                 // Get the Layout Parameters for ListView Current Item View
-                ViewGroup.LayoutParams params = view.getLayoutParams();
-
                 // Set the height of the Item View
+                ViewGroup.LayoutParams params = view.getLayoutParams();
                 params.height = 300;
                 view.setLayoutParams(params);
 
@@ -331,6 +330,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         };
+
         final ListView mainListView = findViewById(R.id.mainListView);
         mainListView.setAdapter(assignmentAdapter);
         registerForContextMenu(mainListView);

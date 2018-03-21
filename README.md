@@ -24,7 +24,7 @@ https://drive.google.com/drive/u/0/folders/1IuitPQHB_kF8mRTA-AcNIBug6orwwu1s
 - [x] Cancel/Back floating button in Done list
 - [x] Add "status" option to the assignment view
 - [x] Edit an existing list item and save the edits
-- [ ] Calculate daysTil when in different month
+- [ ] Calculate daysTil when in different month (Use JodaTime)
 - [ ] Add class name and days 'til in the list view
 - [ ] The list items change color based on the days 'til value
 - [ ] The list items rearrange to have the most important assignments at the top

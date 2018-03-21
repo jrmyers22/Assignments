@@ -83,7 +83,9 @@ public class AddAssignment extends AppCompatActivity {
             nameBlank.setText(selectedAssignment.getName());
             classBlank.setText(selectedAssignment.getClassName());
             tv.setText(selectedAssignment.getTimeDue());
+            timeStr = selectedAssignment.getTimeDue();
             dv.setText(selectedAssignment.getDateDue());
+            dateStr = selectedAssignment.getDateDue();
         }
 
         // Button to set the time
