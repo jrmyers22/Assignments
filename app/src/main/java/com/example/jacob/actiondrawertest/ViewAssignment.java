@@ -10,7 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * ViewAssignment receives an assignment from
@@ -95,12 +99,10 @@ public class ViewAssignment extends AppCompatActivity {
         int day = Integer.valueOf(dateSubStr.substring(0, dateSubStr.indexOf('/')));
         dateSubStr = dateSubStr.substring(dateSubStr.indexOf('/') + 1, dateSubStr.length());
         int year = Integer.valueOf(dateSubStr);
-        if (cYear == year) {
-            if (cMonth == month) {
-                daysTil = day - cDay;
-            }
-            // TODO: Case where it's in a different month
-        }
+        String cDate = cDay + "/" + cMonth + "/" + cYear;
+        String inDate = day + "/" + month + "/" + year;
+        daysTil = getCountOfDays(cDate, inDate);
+
         TextView timeRem = findViewById(R.id.timeRem);
         selectedAssignment.setTimeRemaining(daysTil);
         timeRem.setText(selectedAssignment.getTimeRem());
@@ -121,6 +123,77 @@ public class ViewAssignment extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    /**
+     * Stack Overflow method to compute days in between
+     * two dates. Could also use JodaTime API.
+     * Can be found at:
+     * https://stackoverflow.com/
+     * questions/23323792/android-days-between-two-dates/37659716
+     * @param todayDate current date.
+     * @param dueDate Due date of the assignment.
+     * @return int representing number of days between two dates.
+     */
+    public int getCountOfDays(String todayDate, String dueDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+        Date createdConvertedDate = null, expireCovertedDate = null, todayWithZeroTime = null;
+        try {
+            createdConvertedDate = dateFormat.parse(todayDate);
+            expireCovertedDate = dateFormat.parse(dueDate);
+
+            Date today = new Date();
+
+            todayWithZeroTime = dateFormat.parse(dateFormat.format(today));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        int cYear = 0, cMonth = 0, cDay = 0;
+
+        if (createdConvertedDate.after(todayWithZeroTime)) {
+            Calendar cCal = Calendar.getInstance();
+            cCal.setTime(createdConvertedDate);
+            cYear = cCal.get(Calendar.YEAR);
+            cMonth = cCal.get(Calendar.MONTH);
+            cDay = cCal.get(Calendar.DAY_OF_MONTH);
+
+        } else {
+            Calendar cCal = Calendar.getInstance();
+            cCal.setTime(todayWithZeroTime);
+            cYear = cCal.get(Calendar.YEAR);
+            cMonth = cCal.get(Calendar.MONTH);
+            cDay = cCal.get(Calendar.DAY_OF_MONTH);
+        }
+
+
+    /*Calendar todayCal = Calendar.getInstance();
+    int todayYear = todayCal.get(Calendar.YEAR);
+    int today = todayCal.get(Calendar.MONTH);
+    int todayDay = todayCal.get(Calendar.DAY_OF_MONTH);
+    */
+
+        Calendar eCal = Calendar.getInstance();
+        eCal.setTime(expireCovertedDate);
+
+        int eYear = eCal.get(Calendar.YEAR);
+        int eMonth = eCal.get(Calendar.MONTH);
+        int eDay = eCal.get(Calendar.DAY_OF_MONTH);
+
+        Calendar date1 = Calendar.getInstance();
+        Calendar date2 = Calendar.getInstance();
+
+        date1.clear();
+        date1.set(cYear, cMonth, cDay);
+        date2.clear();
+        date2.set(eYear, eMonth, eDay);
+
+        long diff = date2.getTimeInMillis() - date1.getTimeInMillis();
+
+        float dayCount = (float) diff / (24 * 60 * 60 * 1000);
+
+        return ((int) dayCount);
     }
 
     /**
