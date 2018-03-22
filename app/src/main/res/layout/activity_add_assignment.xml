@@ -8,6 +8,7 @@
 
     <EditText
         android:id="@+id/classBlank"
+        android:inputType="textCapCharacters"
         android:layout_width="332dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -16,7 +17,6 @@
         android:layout_marginTop="30dp"
         android:backgroundTint="@color/colorAccent"
         android:ems="10"
-        android:inputType="textPersonName"
         android:textAllCaps="false"
         android:textColorLink="@android:color/holo_blue_dark"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,6 +26,7 @@
 
     <EditText
         android:id="@+id/nameBlank"
+        android:inputType="textCapWords"
         android:layout_width="332dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -34,7 +35,6 @@
         android:layout_marginTop="30dp"
         android:backgroundTint="@color/colorAccent"
         android:ems="10"
-        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"

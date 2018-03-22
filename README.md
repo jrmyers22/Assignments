@@ -11,7 +11,7 @@ The plan for this project is to interface with an already existing Google Sheets
 Mockups of the GUI, flows, and push notifications can be found (with the proper permission) at:
 https://drive.google.com/drive/u/0/folders/1IuitPQHB_kF8mRTA-AcNIBug6orwwu1s
 
-## Current State (3/19/2018)
+## Current State (3/22/2018)
 
 - [x] Add an assignment to the homescreen list
 - [x] Create "Assignment" POJO class for getters and setters
@@ -25,21 +25,24 @@ https://drive.google.com/drive/u/0/folders/1IuitPQHB_kF8mRTA-AcNIBug6orwwu1s
 - [x] Add "status" option to the assignment view
 - [x] Edit an existing list item and save the edits
 - [x] Calculate daysTil when in different month (did not use JodaTime)
-- [ ] Pop up to confirm when "remove all" is chosen (both normal and done lists)
+- [ ] Back link to the spreadsheet inside of the google sheets app
 - [ ] Add class name and days 'til in the list view
 - [ ] The list items change color based on the days 'til value
 - [ ] The list items rearrange to have the most important assignments at the top
 - [ ] Send notifications daily at ~7am
-- [ ] Put screenshots in README
 - [ ] Integrate the app with the existing Google spreadsheet
 - [ ] Convert app to run on multiple threads for better performance
 
 ## Stretch Goals
+### Nice to have, not necessary for MVP use
 
+- [ ] Put screenshots in README
 - [ ] Dialog box on first open to tell you what is most important (like spreadsheet)
 - [ ] Ability to "Mark Done" from the ViewAssignment screen
 - [ ] "Date of Class's Final" screen
 - [ ] Tutorial on first open
+- [ ] Ability to "revert mark done" from the Done assignments screen
+- [ ] Pop up to confirm when "remove all" is chosen (both normal and done lists)
 - [ ] Notification when assignment has passed, ability to "Mark Done"
 - [ ] Google assistant integration to be able to ask for upcoming assignments
 - [ ] Pull down to sync (with loading animation)
