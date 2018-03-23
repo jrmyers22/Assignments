@@ -1,9 +1,6 @@
 package com.example.jacob.actiondrawertest;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +17,7 @@ import java.util.Locale;
 /**
  * ViewAssignment receives an assignment from
  * MainActivity, sets the values of the TextViews
- * based on that assignment's props, and optionally
+ * based on that assignment's props, and (optionally)
  * sends that assignment to AddAssignment if the
  * Edit button is pushed.
  */

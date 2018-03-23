@@ -11,7 +11,7 @@ The plan for this project is to interface with an already existing Google Sheets
 Mockups of the GUI, flows, and push notifications can be found (with the proper permission) at:
 https://drive.google.com/drive/u/0/folders/1IuitPQHB_kF8mRTA-AcNIBug6orwwu1s
 
-## Current State (3/22/2018)
+## Current State (3/23/2018)
 
 - [x] Add an assignment to the homescreen list
 - [x] Create "Assignment" POJO class for getters and setters
@@ -25,12 +25,14 @@ https://drive.google.com/drive/u/0/folders/1IuitPQHB_kF8mRTA-AcNIBug6orwwu1s
 - [x] Add "status" option to the assignment view
 - [x] Edit an existing list item and save the edits
 - [x] Calculate daysTil when in different month (did not use JodaTime)
-- [ ] Back link to the spreadsheet inside of the google sheets app
+- [x] Back link to the spreadsheet inside of the google sheets app
 - [ ] Add class name and days 'til in the list view
 - [ ] The list items change color based on the days 'til value
 - [ ] The list items rearrange to have the most important assignments at the top
+- [ ] AddAssignment AlertDialog to select class
+- [ ] AddAssignment AlertDialog to select portal (based on the class or list of all portals?)
 - [ ] Send notifications daily at ~7am
-- [ ] Integrate the app with the existing Google spreadsheet
+- [ ] (Depends on pushbullet integration) Integrate the app with the existing Google spreadsheet
 - [ ] Convert app to run on multiple threads for better performance
 
 ## Stretch Goals
@@ -43,8 +45,8 @@ https://drive.google.com/drive/u/0/folders/1IuitPQHB_kF8mRTA-AcNIBug6orwwu1s
 - [ ] Tutorial on first open
 - [ ] Ability to "revert mark done" from the Done assignments screen
 - [ ] Pop up to confirm when "remove all" is chosen (both normal and done lists)
-- [ ] Notification when assignment has passed, ability to "Mark Done"
-- [ ] Google assistant integration to be able to ask for upcoming assignments
 - [ ] Pull down to sync (with loading animation)
+- [ ] Notification when assignment has passed, ability to "Mark Done"
 - [ ] App shortcuts by long pressing the home screen shortcut
+- [ ] Google assistant integration to be able to ask for upcoming assignments
 - [ ] Fingerprint authentication (?? just to see how to implement)

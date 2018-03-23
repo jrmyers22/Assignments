@@ -1,11 +1,10 @@
 package com.example.jacob.actiondrawertest;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,13 +30,23 @@ public class ChangeRules extends AppCompatActivity {
             }
         });
 
-        TextView mostImp = findViewById(R.id.mostImportant);
+        final TextView mostImp = findViewById(R.id.mostImportant);
         registerForContextMenu(mostImp);
 
         mostImp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activity.openContextMenu(view);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ChangeRules.this);
+                builder.setTitle("Testing");
+                String[] cs = new String[] {"Copy Text", "Delete", "Details"};
+                builder.setItems(cs, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int itemIdx) {
+                                /* itemIdx is an index */
+                            }
+
+                        });
+                builder.show();
             }
         });
 
@@ -60,15 +69,6 @@ public class ChangeRules extends AppCompatActivity {
                 activity.openContextMenu(view);
             }
         });
-
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
-    {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        String[] viewElem = v.toString().split(" ");
-        String id = viewElem[viewElem.length - 1];
 
     }
 

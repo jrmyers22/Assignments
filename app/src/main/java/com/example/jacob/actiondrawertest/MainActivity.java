@@ -1,25 +1,19 @@
 package com.example.jacob.actiondrawertest;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -47,8 +41,6 @@ public class MainActivity extends AppCompatActivity
 
     /** Shared Preferences name for the done list */
     final String DONE_NAME = "Done_Assignments";
-
-    boolean removeAll = false;
 
     /** List of regular assignments retrieved from SP */
     public ArrayList<Assignment> assignments;
@@ -195,11 +187,15 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, ChangeRules.class);
             startActivity(intent);
         } else if (id == R.id.spreadsheet) {
-            Uri page = Uri.parse("https://www.google.com/sheets/about");
+            Uri page = Uri.parse("https://docs.google.com/spreadsheets/d/1Rkev7bbWFfg_TBqqYzHAA-BUxmbEnP7oonLMdedapCk/edit#gid=0");
+
+            // Implicit intent
             Intent webIntent = new Intent(Intent.ACTION_VIEW, page);
             PackageManager packageManager = getPackageManager();
             List activities = packageManager.queryIntentActivities(webIntent,
                     PackageManager.MATCH_DEFAULT_ONLY);
+
+            // Makes sure the app is on the phone
             boolean isIntentSafe = activities.size() > 0;
             if (isIntentSafe) {
                 startActivity(webIntent);
