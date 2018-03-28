@@ -1,5 +1,9 @@
 package com.example.jacob.actiondrawertest;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,7 +22,6 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +29,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -320,12 +323,37 @@ public class MainActivity extends AppCompatActivity
                 params.height = 300;
                 view.setLayoutParams(params);
 
-                // TODO: Replace
-                if (position < 2) {
-                    view.setBackgroundColor(getResources().getColor(R.color.a_red));
-                } else if (position < 5) {
-                    view.setBackgroundColor(getResources().getColor(R.color.a_yellow));
+                for (int i = 0; i < assignmentNames.size(); i++) {
+                    String name = getItem(i);
+                    Assignment current = null;
+                    for (int j = 0; j < assignments.size(); j++) {
+                        if (name.equals(assignments.get(j).getName())) {
+                            current = assignments.get(j);
+                            toast(current.getName());
+                        }
+                    }
+                    if (current == null) {
+                        // Something so it doesn't error out
+                        return view;
+                    }
+
+                    if (current.getName().contains("t")) {
+                        //toast("Important Time remaining: " + current.getTimeRem());
+                        
+                        view.setBackgroundColor(getResources().getColor(R.color.a_red));
+                    } else if (current.getName().contains("z")) {
+//                        toast("Time remaining: " + current.getTimeRem());
+                        view.setBackgroundColor(getResources().getColor(R.color.a_yellow));
+                    }
+
                 }
+
+                // TODO: Replace
+//                if (position < 2) {
+//                    view.setBackgroundColor(getResources().getColor(R.color.a_red));
+//                } else if (position < 5) {
+//                    view.setBackgroundColor(getResources().getColor(R.color.a_yellow));
+//                }
 
                 return view;
             }
@@ -365,7 +393,55 @@ public class MainActivity extends AppCompatActivity
 
         );
 
+//        Creates the push notification
+//        Intent intent = new Intent(this, MainActivity.class);
+//        String shortMsg = "None...Yet!";
+//        StringBuilder longMsg = new StringBuilder("");
+//        if (assignmentNames.size() > 0) {
+//            shortMsg = assignmentNames.get(0);
+//            if (assignmentNames.size() > 1) {
+//                for (String name: assignmentNames) {
+//                    name = name + "/n";
+//                    longMsg.append(name);
+//                }
+//            }
+//        }
+//        makeNotification(this, "Your Important Assignments", shortMsg,
+//                longMsg, intent);
+    }
 
+    public void makeNotification(Context context, String title, String smallText,
+                                 StringBuilder longMessage, Intent intent) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        int notificationId = 1;
+        String channelId = "channel-01";
+        String channelName = "Channel Name";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel(
+                    channelId, channelName, importance);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(R.drawable.ic_mother)
+                .setContentTitle(title)
+                .setContentText(smallText)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(longMessage))
+                .setAutoCancel(true); // Removes when clicked
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addNextIntent(intent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
+                0,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        notificationManager.notify(notificationId, mBuilder.build());
     }
 
     /**

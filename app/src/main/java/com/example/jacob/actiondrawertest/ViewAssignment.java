@@ -106,7 +106,7 @@ public class ViewAssignment extends AppCompatActivity {
 
         // Update the UI to reflect days remaining.
         TextView timeRem = findViewById(R.id.timeRem);
-        timeRem.setText(selectedAssignment.getTimeRem());
+        timeRem.setText(selectedAssignment.getTimeRemStr());
 
         // Green if Done, Yellow if In Progress
         TextView statusText = findViewById(R.id.statusText);

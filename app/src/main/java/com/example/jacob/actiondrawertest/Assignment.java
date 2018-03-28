@@ -74,12 +74,21 @@ class Assignment implements Serializable {
     }
 
     /**
+     * Gets and returns the time remaining.
+     * @return int time remaining.??????
+     */
+    public int getTimeRem() {
+        return timeRemaining;
+    }
+
+    /**
      * Gets and returns time
-     * remaining (days 'til).
+     * remaining (days 'til) in
+     * String format "~ _ days".
      * Set by the ViewAssignment class.
      * @return TimeRemaining (days 'til)
      */
-    public String getTimeRem() {
+    public String getTimeRemStr() {
         String retVal = "";
         if (timeRemaining == 1) {
             retVal = "~ " + timeRemaining + " day";
@@ -133,5 +142,12 @@ class Assignment implements Serializable {
         // Use GSON to instantiate this class using the JSON representation
         Gson gson = new Gson();
         return gson.fromJson(serializedData, Assignment.class);
+    }
+
+    public String toString() {
+        String str = "";
+        str = name + ", " + className + ", timeDue=" + timeDue + ", date=" + dateDue
+                + ", remaining=" + timeRemaining + ", is done=" + isDone;
+        return str;
     }
 }
