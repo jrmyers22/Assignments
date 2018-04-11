@@ -11,7 +11,7 @@ The plan for this project is to interface with an already existing Google Sheets
 Mockups of the GUI, flows, and push notifications can be found (with the proper permission) at:
 https://drive.google.com/drive/u/0/folders/1IuitPQHB_kF8mRTA-AcNIBug6orwwu1s
 
-## Current State (3/28/2018)
+## Current State (4/11/2018)
 
 - [x] Add an assignment to the homescreen list
 - [x] Create "Assignment" POJO class for getters and setters

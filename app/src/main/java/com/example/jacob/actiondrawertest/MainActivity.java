@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -283,31 +284,7 @@ public class MainActivity extends AppCompatActivity
      */
     public void displayListView() {
 
-        // Put in loop to get all stored assignment
-        SharedPreferences preferencesReader = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-
-        // Get names of assignment
-        Map<String, ?> allEntries = preferencesReader.getAll();
-        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
-            String serializedDataFromPreference = preferencesReader.getString(entry.getKey(), null);
-            Assignment restoredAssignment = Assignment.create(serializedDataFromPreference);
-            if (restoredAssignment != null) {
-                if (restoredAssignment.isDone()) {
-                    if (!doneAssignments.contains(restoredAssignment)) {
-                        doneAssignments.add(restoredAssignment);
-                    }
-                } else {
-                    if (!(assignments.contains(restoredAssignment))
-                            && !(assignmentNames.contains(restoredAssignment.getName()))) {
-                        assignments.add(restoredAssignment);
-                        assignmentNames.add(restoredAssignment.getName());
-                    }
-                }
-
-            }
-        }
-
+        retrieveAndSort();
 
         assignmentAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
                 assignmentNames){
@@ -345,7 +322,7 @@ public class MainActivity extends AppCompatActivity
 //
 //                }
 
-                // TODO: Replace
+                // TODO: Replace 2 & 5 with number of important assignments
                 if (position < 2) {
                     view.setBackgroundColor(getResources().getColor(R.color.a_red));
                 } else if (position < 5) {
@@ -440,6 +417,34 @@ public class MainActivity extends AppCompatActivity
 //
 //        notificationManager.notify(notificationId, mBuilder.build());
 //    }
+
+    private void retrieveAndSort() {
+        // Put in loop to get all stored assignment
+        SharedPreferences preferencesReader = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+
+        // Get names of assignment
+        Map<String, ?> allEntries = preferencesReader.getAll();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
+            String serializedDataFromPreference = preferencesReader.getString(entry.getKey(), null);
+            Assignment restoredAssignment = Assignment.create(serializedDataFromPreference);
+            if (restoredAssignment != null) {
+                if (restoredAssignment.isDone()) {
+                    if (!doneAssignments.contains(restoredAssignment)) {
+                        doneAssignments.add(restoredAssignment);
+                    }
+                } else if (!(assignments.contains(restoredAssignment))
+                            && !(assignmentNames.contains(restoredAssignment.getName()))) {
+                        assignments.add(restoredAssignment);
+                        assignmentNames.add(restoredAssignment.getName());
+                } else {
+                    // Duplicate entries
+                    toast("Duplicate assignment name exists");
+                }
+
+            }
+        }
+    }
 
     /**
      * Wrapper to make a Toast message.

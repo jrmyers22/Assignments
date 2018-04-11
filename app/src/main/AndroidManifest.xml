@@ -29,7 +29,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ViewAssignment" />
         <activity android:name=".ChangeRules" />
-        <activity android:name=".DoneAssignments"></activity>
+        <activity android:name=".DoneAssignments" />
+        <activity
+            android:name=".test"
+            android:label="@string/title_activity_test"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
