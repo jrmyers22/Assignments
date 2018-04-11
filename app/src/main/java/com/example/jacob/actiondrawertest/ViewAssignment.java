@@ -87,7 +87,7 @@ public class ViewAssignment extends AppCompatActivity {
         dDate.setText(dateStr);
 
         // Calculate the days 'til when the assignment is clicked on
-        int daysTil = -1;
+        int daysTil;
         final Calendar c = Calendar.getInstance();
         int cYear = c.get(Calendar.YEAR); // current year
         int cMonth = c.get(Calendar.MONTH) + 1; // current month
@@ -106,7 +106,7 @@ public class ViewAssignment extends AppCompatActivity {
 
         // Update the UI to reflect days remaining.
         TextView timeRem = findViewById(R.id.timeRem);
-        timeRem.setText(selectedAssignment.getTimeRemStr());
+        timeRem.setText(selectedAssignment.getTimeRem());
 
         // Green if Done, Yellow if In Progress
         TextView statusText = findViewById(R.id.statusText);

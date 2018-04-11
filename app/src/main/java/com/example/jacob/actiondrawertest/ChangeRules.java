@@ -41,11 +41,11 @@ public class ChangeRules extends AppCompatActivity {
                 String[] cs = new String[] {"Copy Text", "Delete", "Details"};
                 builder.setItems(cs, new DialogInterface.OnClickListener() {
 
-                            public void onClick(DialogInterface dialog, int itemIdx) {
+                    public void onClick(DialogInterface dialog, int itemIdx) {
                                 /* itemIdx is an index */
-                            }
+                    }
 
-                        });
+                });
                 builder.show();
             }
         });

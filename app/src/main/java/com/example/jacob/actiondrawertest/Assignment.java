@@ -43,8 +43,8 @@ class Assignment implements Serializable {
      * @return String name of the assignment.
      */
     public String getName() {
-            return name;
-        }
+        return name;
+    }
 
     /**
      * Gets and returns name of
@@ -74,21 +74,12 @@ class Assignment implements Serializable {
     }
 
     /**
-     * Gets and returns the time remaining.
-     * @return int time remaining.??????
-     */
-    public int getTimeRem() {
-        return timeRemaining;
-    }
-
-    /**
      * Gets and returns time
-     * remaining (days 'til) in
-     * String format "~ _ days".
+     * remaining (days 'til).
      * Set by the ViewAssignment class.
      * @return TimeRemaining (days 'til)
      */
-    public String getTimeRemStr() {
+    public String getTimeRem() {
         String retVal = "";
         if (timeRemaining == 1) {
             retVal = "~ " + timeRemaining + " day";
@@ -142,12 +133,5 @@ class Assignment implements Serializable {
         // Use GSON to instantiate this class using the JSON representation
         Gson gson = new Gson();
         return gson.fromJson(serializedData, Assignment.class);
-    }
-
-    public String toString() {
-        String str = "";
-        str = name + ", " + className + ", timeDue=" + timeDue + ", date=" + dateDue
-                + ", remaining=" + timeRemaining + ", is done=" + isDone;
-        return str;
     }
 }

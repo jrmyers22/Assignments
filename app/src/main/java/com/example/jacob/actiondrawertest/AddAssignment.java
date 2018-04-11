@@ -16,8 +16,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * This class takes care of adding the assignment by verifying
@@ -100,18 +104,18 @@ public class AddAssignment extends AppCompatActivity {
                 TimePickerDialog mTimePicker;
                 mTimePicker = new TimePickerDialog(AddAssignment.this,
                         new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        String minStr = "";
-                        if (selectedMinute < SPECIAL_NUM) {
-                            minStr = "0" + selectedMinute;
-                        } else {
-                            minStr = "" + selectedMinute;
-                        }
-                        timeStr = selectedHour + ":" + minStr;
-                        tv.setText(timeStr);
-                    }
-                }, hour, minute, false);//False: 24 hour time
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                                String minStr = "";
+                                if (selectedMinute < SPECIAL_NUM) {
+                                    minStr = "0" + selectedMinute;
+                                } else {
+                                    minStr = "" + selectedMinute;
+                                }
+                                timeStr = selectedHour + ":" + minStr;
+                                tv.setText(timeStr);
+                            }
+                        }, hour, minute, false);//False: 24 hour time
                 mTimePicker.setTitle("Select Time");
                 mTimePicker.show();
             }
@@ -165,12 +169,13 @@ public class AddAssignment extends AppCompatActivity {
             public void onClick(View view) {
                 nameStr = nameBlank.getText().toString();
                 classNameStr = classBlank.getText().toString();
-                String isValidMsg = dataIsValid();
-                if (!(isValidMsg.equals(""))) {
-                    toast(isValidMsg);
+                String[] isValidMsg = dataIsValid();
+                if (!(isValidMsg[0].equals(""))) {
+                    toast(isValidMsg[0]);
                 } else {
-                    // Create our data object
+                    // Create our data object, set the Time remaining
                     Assignment newAssignment = new Assignment(nameStr, classNameStr, timeStr, dateStr);
+                    newAssignment.setTimeRemaining(Integer.parseInt(isValidMsg[1]));
 
                     // Serialize the object into a string
                     String serializedData = newAssignment.serialize();
@@ -216,23 +221,24 @@ public class AddAssignment extends AppCompatActivity {
      * past (including current day)
      * @return Whether the entry is valid
      */
-    private String dataIsValid(){
+    private String[] dataIsValid(){
         // Validate the inputs
         if (nameStr.equals("")) {
-            return "Name is invalid.";
+            return new String[] {"Name is invalid.", "0"};
         } else if (classNameStr.equals("")) {
-            return "Class is invalid.";
+            return new String[] {"Class is invalid.", "0"};
         } else if (timeStr == null) {
-            return "Time is invalid.";
+            return new String[] {"Time is invalid.", "0"};
         } else if (dateStr == null) {
-            return "Date is invalid.";
+            return new String[] {"Date is invalid.", "0"};
         }
 
-        // Validate the calendar data
-        final Calendar c = Calendar.getInstance();
-        int cYear = c.get(Calendar.YEAR); // current year
-        int cMonth = c.get(Calendar.MONTH) + 1; // current month
-        int cDay = c.get(Calendar.DAY_OF_MONTH); // current day
+        // Reduce code redundancy
+        int[] current_date_array = getCurrentDate();
+        int cDay = current_date_array[0];
+        int cMonth = current_date_array[1];
+        int cYear = current_date_array[2];
+
         int month = Integer.valueOf(dateStr.substring(0, dateStr.indexOf('/')));
         String dateSubStr = dateStr.substring(dateStr.indexOf('/') + 1, dateStr.length());
         int day = Integer.valueOf(dateSubStr.substring(0, dateSubStr.indexOf('/')));
@@ -241,29 +247,109 @@ public class AddAssignment extends AppCompatActivity {
         Log.d("Year","Current year: " + cYear + " Passed year: " + year);
         Log.d("Month","Current month: " + cMonth + " Passed year: " + month);
         Log.d("Day","Current day: " + cDay + " Passed day: " + day);
+        String cDate = cDay + "/" + cMonth + "/" + cYear;
+        String inDate = day + "/" + month + "/" + year;
+
+//        selectedAssignment.setTimeRemaining(daysTil);
         if (year < cYear) {
-            return "Date must be in the future.";
+            return new String[] {"Date must be in the future.", "0"};
         } else if (year == cYear) {
             if (month < cMonth) {
-                return "Date must be in the future.";
+                return new String[] {"Date must be in the future.", "0"};
             } else if (month == cMonth) {
                 if (day < cDay) { // TODO: less than or equal
-                    return "Date must be in the future.";
+                    return new String[] {"Date must be in the future.", "0"};
                 }
             }
         } else {
+            // Calculate and set the days remaining.
+            int daysTil = getCountOfDays(cDate, inDate);
+            return new String[] {"", "" + daysTil};
+        }
+        // Calculate and set the days remaining.
+        int daysTil = getCountOfDays(cDate, inDate);
+        return new String[] {"", "" + daysTil};
+    }
 
-            return "";
+    /**
+     * Stack Overflow method to compute days in between
+     * two dates. Could (preferably) use JodaTime API.
+     * Can be found at:
+     * https://stackoverflow.com/
+     * questions/23323792/android-days-between-two-dates/37659716
+     * @param todayDate current date.
+     * @param dueDate Due date of the assignment.
+     * @return int representing number of days between two dates.
+     */
+    public int getCountOfDays(String todayDate, String dueDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+        Date createdConvertedDate = null, expireCovertedDate = null, todayWithZeroTime = null;
+        try {
+            createdConvertedDate = dateFormat.parse(todayDate);
+            expireCovertedDate = dateFormat.parse(dueDate);
+
+            Date today = new Date();
+
+            todayWithZeroTime = dateFormat.parse(dateFormat.format(today));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
-        return "";
+        int cYear = 0, cMonth = 0, cDay = 0;
+
+        if (createdConvertedDate.after(todayWithZeroTime)) {
+            Calendar cCal = Calendar.getInstance();
+            cCal.setTime(createdConvertedDate);
+            cYear = cCal.get(Calendar.YEAR);
+            cMonth = cCal.get(Calendar.MONTH);
+            cDay = cCal.get(Calendar.DAY_OF_MONTH);
+
+        } else {
+            Calendar cCal = Calendar.getInstance();
+            cCal.setTime(todayWithZeroTime);
+            cYear = cCal.get(Calendar.YEAR);
+            cMonth = cCal.get(Calendar.MONTH);
+            cDay = cCal.get(Calendar.DAY_OF_MONTH);
+        }
+
+        Calendar eCal = Calendar.getInstance();
+        eCal.setTime(expireCovertedDate);
+
+        int eYear = eCal.get(Calendar.YEAR);
+        int eMonth = eCal.get(Calendar.MONTH);
+        int eDay = eCal.get(Calendar.DAY_OF_MONTH);
+
+        Calendar date1 = Calendar.getInstance();
+        Calendar date2 = Calendar.getInstance();
+
+        date1.clear();
+        date1.set(cYear, cMonth, cDay);
+        date2.clear();
+        date2.set(eYear, eMonth, eDay);
+
+        long diff = date2.getTimeInMillis() - date1.getTimeInMillis();
+
+        float dayCount = (float) diff / (24 * 60 * 60 * 1000);
+
+        return ((int) dayCount);
+    }
+
+    private int[] getCurrentDate() {
+        // Validate the calendar data
+        final Calendar c = Calendar.getInstance();
+        int cYear = c.get(Calendar.YEAR); // current year
+        int cMonth = c.get(Calendar.MONTH) + 1; // current month
+        int cDay = c.get(Calendar.DAY_OF_MONTH); // current day
+        int[] ret = new int[]{cDay, cMonth, cYear};
+        return ret;
     }
 
     /**
      * Wrapper to make a Toast message.
      * @param msg Message to display
      */
-    public void toast(String msg) {
+    private void toast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

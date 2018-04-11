@@ -323,37 +323,34 @@ public class MainActivity extends AppCompatActivity
                 params.height = 300;
                 view.setLayoutParams(params);
 
-                for (int i = 0; i < assignmentNames.size(); i++) {
-                    String name = getItem(i);
-                    Assignment current = null;
-                    for (int j = 0; j < assignments.size(); j++) {
-                        if (name.equals(assignments.get(j).getName())) {
-                            current = assignments.get(j);
-                            toast(current.getName());
-                        }
-                    }
-                    if (current == null) {
-                        // Something so it doesn't error out
-                        return view;
-                    }
-
-                    if (current.getName().contains("t")) {
-                        //toast("Important Time remaining: " + current.getTimeRem());
-                        
-                        view.setBackgroundColor(getResources().getColor(R.color.a_red));
-                    } else if (current.getName().contains("z")) {
-//                        toast("Time remaining: " + current.getTimeRem());
-                        view.setBackgroundColor(getResources().getColor(R.color.a_yellow));
-                    }
-
-                }
+//                for (int i = 0; i < assignmentNames.size(); i++) {
+//                    String name = getItem(i);
+//                    Assignment current = null;
+//                    for (int j = 0; j < assignments.size(); j++) {
+//                        if (name.equals(assignments.get(j).getName())) {
+//                            current = assignments.get(j);
+//                            toast(current.getName());
+//                        }
+//                    }
+//                    if (current == null) {
+//                        // Something so it doesn't error out
+//                        return view;
+//                    }
+//
+//                    if (current.getName().contains("t")) {
+//                        view.setBackgroundColor(getResources().getColor(R.color.a_red));
+//                    } else if (current.getName().contains("z")) {
+//                        view.setBackgroundColor(getResources().getColor(R.color.a_yellow));
+//                    }
+//
+//                }
 
                 // TODO: Replace
-//                if (position < 2) {
-//                    view.setBackgroundColor(getResources().getColor(R.color.a_red));
-//                } else if (position < 5) {
-//                    view.setBackgroundColor(getResources().getColor(R.color.a_yellow));
-//                }
+                if (position < 2) {
+                    view.setBackgroundColor(getResources().getColor(R.color.a_red));
+                } else if (position < 5) {
+                    view.setBackgroundColor(getResources().getColor(R.color.a_yellow));
+                }
 
                 return view;
             }
@@ -410,39 +407,39 @@ public class MainActivity extends AppCompatActivity
 //                longMsg, intent);
     }
 
-    public void makeNotification(Context context, String title, String smallText,
-                                 StringBuilder longMessage, Intent intent) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        int notificationId = 1;
-        String channelId = "channel-01";
-        String channelName = "Channel Name";
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel mChannel = new NotificationChannel(
-                    channelId, channelName, importance);
-            notificationManager.createNotificationChannel(mChannel);
-        }
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.ic_mother)
-                .setContentTitle(title)
-                .setContentText(smallText)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(longMessage))
-                .setAutoCancel(true); // Removes when clicked
-
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addNextIntent(intent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
-                0,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-
-        mBuilder.setContentIntent(resultPendingIntent);
-
-        notificationManager.notify(notificationId, mBuilder.build());
-    }
+//    public void makeNotification(Context context, String title, String smallText,
+//                                 StringBuilder longMessage, Intent intent) {
+//        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//        int notificationId = 1;
+//        String channelId = "channel-01";
+//        String channelName = "Channel Name";
+//        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+//
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//            NotificationChannel mChannel = new NotificationChannel(
+//                    channelId, channelName, importance);
+//            notificationManager.createNotificationChannel(mChannel);
+//        }
+//
+//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
+//                .setSmallIcon(R.drawable.ic_mother)
+//                .setContentTitle(title)
+//                .setContentText(smallText)
+//                .setStyle(new NotificationCompat.BigTextStyle().bigText(longMessage))
+//                .setAutoCancel(true); // Removes when clicked
+//
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+//        stackBuilder.addNextIntent(intent);
+//        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
+//                0,
+//                PendingIntent.FLAG_UPDATE_CURRENT
+//        );
+//
+//        mBuilder.setContentIntent(resultPendingIntent);
+//
+//        notificationManager.notify(notificationId, mBuilder.build());
+//    }
 
     /**
      * Wrapper to make a Toast message.
